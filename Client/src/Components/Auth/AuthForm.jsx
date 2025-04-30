@@ -1,55 +1,52 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { useSearchParams, useNavigate } from "react-router-dom"
+import { useState, useEffect } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
 
 const AuthForm = () => {
-  const [searchParams] = useSearchParams()
-  const navigate = useNavigate()
-  const [isLogin, setIsLogin] = useState(true)
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
-  })
+  });
 
   useEffect(() => {
-    // Check if mode is specified in URL
-    const mode = searchParams.get("mode")
+    const mode = searchParams.get("mode");
     if (mode === "signup") {
-      setIsLogin(false)
+      setIsLogin(false);
     } else {
-      setIsLogin(true)
+      setIsLogin(true);
     }
-  }, [searchParams])
+  }, [searchParams]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
-    }))
-  }
+    }));
+  };
 
   const toggleMode = () => {
-    setIsLogin(!isLogin)
-    navigate(`/auth${!isLogin ? "" : "?mode=signup"}`)
-  }
+    setIsLogin(!isLogin);
+    navigate(`/auth${!isLogin ? "" : "?mode=signup"}`);
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    // Here you would handle form submission
-    console.log("Form submitted:", formData)
+    e.preventDefault();
+    console.log("Form submitted:", formData);
 
-    // Reset form
     setFormData({
       name: "",
       email: "",
       password: "",
       confirmPassword: "",
-    })
-  }
+    });
+  };
 
   return (
     <div className="bg-white p-8 rounded-lg shadow-xl max-w-md w-full mx-auto">
@@ -60,7 +57,10 @@ const AuthForm = () => {
       <form onSubmit={handleSubmit} className="space-y-6">
         {!isLogin && (
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700"
+            >
               Full Name
             </label>
             <div className="mt-1">
@@ -72,14 +72,17 @@ const AuthForm = () => {
                 value={formData.name}
                 onChange={handleChange}
                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-black focus:border-black transition-all duration-300 sm:text-sm"
-                placeholder="John Doe"
+                placeholder="ebad ullah"
               />
             </div>
           </div>
         )}
 
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-gray-700"
+          >
             Email address
           </label>
           <div className="mt-1">
@@ -92,13 +95,16 @@ const AuthForm = () => {
               value={formData.email}
               onChange={handleChange}
               className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-black focus:border-black transition-all duration-300 sm:text-sm"
-              placeholder="you@example.com"
+              placeholder="you@devvertax.com"
             />
           </div>
         </div>
 
         <div>
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="password"
+            className="block text-sm font-medium text-gray-700"
+          >
             Password
           </label>
           <div className="mt-1">
@@ -118,7 +124,10 @@ const AuthForm = () => {
 
         {!isLogin && (
           <div>
-            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="confirmPassword"
+              className="block text-sm font-medium text-gray-700"
+            >
               Confirm Password
             </label>
             <div className="mt-1">
@@ -139,7 +148,10 @@ const AuthForm = () => {
         {isLogin && (
           <div className="flex items-center justify-end">
             <div className="text-sm">
-              <a href="#" className="font-medium text-black hover:text-gray-800 transition-all duration-300">
+              <a
+                href="#"
+                className="font-medium text-black hover:text-gray-800 transition-all duration-300"
+              >
                 Forgot your password?
               </a>
             </div>
@@ -176,7 +188,7 @@ const AuthForm = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AuthForm
+export default AuthForm;

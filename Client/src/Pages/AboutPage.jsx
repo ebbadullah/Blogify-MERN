@@ -117,12 +117,12 @@ const AboutPage = () => {
                 <div className="mx-auto h-40 w-40 rounded-full xl:h-56 xl:w-56 overflow-hidden">
                   <img
                     className="h-full w-full object-cover"
-                    src="https://randomuser.me/api/portraits/men/32.jpg"
+                    src="https://res.cloudinary.com/dfnpekedc/image/upload/v1741934327/gteytlkmewgayj6lfn8x.jpg"
                     alt="Team member"
                   />
                 </div>
                 <div className="mt-6">
-                  <h3 className="text-lg font-medium text-black">John Smith</h3>
+                  <h3 className="text-lg font-medium text-black">Ebad Ullah</h3>
                   <p className="text-sm text-gray-500">Founder & CEO</p>
                   <div className="mt-2 flex justify-center space-x-3">
                     <a href="#" className="text-gray-400 hover:text-gray-500">
@@ -149,12 +149,13 @@ const AboutPage = () => {
                 <div className="mx-auto h-40 w-40 rounded-full xl:h-56 xl:w-56 overflow-hidden">
                   <img
                     className="h-full w-full object-cover"
-                    src="https://randomuser.me/api/portraits/women/44.jpg"
+                    src="https://media.licdn.com/dms/image/v2/D4D03AQEM-EAMBGfWCw/profile-displayphoto-shrink_800_800/B4DZOMEa7oHoAw-/0/1733221789867?e=1751500800&v=beta&t=_yBBYgeV3lpC9cYXqiPRZSUypgIOlg2sHIN_UpWmfX4"
                     alt="Team member"
                   />
                 </div>
                 <div className="mt-6">
-                  <h3 className="text-lg font-medium text-black">Sarah Johnson</h3>
+                  <h3 className="text-lg font-medium text-black">Arshil Mirza
+                  </h3>
                   <p className="text-sm text-gray-500">CTO</p>
                   <div className="mt-2 flex justify-center space-x-3">
                     <a href="#" className="text-gray-400 hover:text-gray-500">
@@ -181,12 +182,12 @@ const AboutPage = () => {
                 <div className="mx-auto h-40 w-40 rounded-full xl:h-56 xl:w-56 overflow-hidden">
                   <img
                     className="h-full w-full object-cover"
-                    src="https://randomuser.me/api/portraits/men/67.jpg"
+                    src="https://media.licdn.com/dms/image/v2/D4D03AQGI1mmPcsVEwA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1700293270350?e=1751500800&v=beta&t=UTVDtNthGj0zGOR5kDp5dak9kaYxbDrGwDspTnr-3w4"
                     alt="Team member"
                   />
                 </div>
                 <div className="mt-6">
-                  <h3 className="text-lg font-medium text-black">Michael Chen</h3>
+                  <h3 className="text-lg font-medium text-black">Khubaib khan</h3>
                   <p className="text-sm text-gray-500">Lead Designer</p>
                   <div className="mt-2 flex justify-center space-x-3">
                     <a href="#" className="text-gray-400 hover:text-gray-500">

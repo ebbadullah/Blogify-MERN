@@ -1,6 +1,6 @@
-import BlogCard from "./BlogCard"
-import FeaturedPost from "./FeaturedPost"
-import PopularTags from "./PopularTags"
+import BlogCard from "./BlogCard";
+import FeaturedPost from "./FeaturedPost";
+import PopularTags from "./PopularTags";
 
 const BlogSection = () => {
   const blogPosts = [
@@ -16,7 +16,8 @@ const BlogSection = () => {
       readTime: 5,
       author: {
         name: "Lina Fatima",
-        avatar: "https://media.licdn.com/dms/image/v2/D4D03AQHHFhfsVcHNJA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1698611108124?e=2147483647&v=beta&t=F3OKjPhn6qV4_G75Tm2efIjqQfwnzB8S5u4APRhYJvE",
+        avatar:
+          "https://media.licdn.com/dms/image/v2/D4D03AQHHFhfsVcHNJA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1698611108124?e=2147483647&v=beta&t=F3OKjPhn6qV4_G75Tm2efIjqQfwnzB8S5u4APRhYJvE",
       },
     },
     {
@@ -31,7 +32,8 @@ const BlogSection = () => {
       readTime: 8,
       author: {
         name: "Muhammad Ismail",
-        avatar: "https://media.licdn.com/dms/image/v2/D4D03AQEnUw11W3ZTMg/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1728170985458?e=2147483647&v=beta&t=bvIWa91h3XcqKgFaGwbhbRXg_T2HjbXxAlKa2ladDp0",
+        avatar:
+          "https://media.licdn.com/dms/image/v2/D4D03AQEnUw11W3ZTMg/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1728170985458?e=2147483647&v=beta&t=bvIWa91h3XcqKgFaGwbhbRXg_T2HjbXxAlKa2ladDp0",
       },
     },
     {
@@ -46,18 +48,22 @@ const BlogSection = () => {
       readTime: 6,
       author: {
         name: "Ali Nisar",
-        avatar: "https://media.licdn.com/dms/image/v2/D4E03AQGpUVRwomxQhA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1692849556097?e=2147483647&v=beta&t=vjFAv9XieuNvP0AsaTxmjQ3DQVskeM1DL4TBHjAQZN0",
+        avatar:
+          "https://media.licdn.com/dms/image/v2/D4E03AQGpUVRwomxQhA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1692849556097?e=2147483647&v=beta&t=vjFAv9XieuNvP0AsaTxmjQ3DQVskeM1DL4TBHjAQZN0",
       },
     },
-  ]
+  ];
 
   return (
     <section className="py-12 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-extrabold text-black sm:text-4xl">Latest from the Blog</h2>
+          <h2 className="text-3xl font-extrabold text-black sm:text-4xl">
+            Latest from the Blog
+          </h2>
           <p className="mt-3 max-w-2xl mx-auto text-xl text-gray-500 sm:mt-4">
-            Discover insights, tutorials, and thoughts on web development, design, and technology.
+            Discover insights, tutorials, and thoughts on web development,
+            design, and technology.
           </p>
         </div>
 
@@ -77,7 +83,7 @@ const BlogSection = () => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default BlogSection
+export default BlogSection;
