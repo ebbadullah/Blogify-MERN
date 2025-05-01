@@ -1,31 +1,22 @@
-///simple express server 
-const express = require('express');
+import express from 'express';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import cors from 'cors';
+import router from './Routes/router.js';
+
+dotenv.config();
 const app = express();
-const port = 3000;
 
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-    
-})
-app.get('/api', (req, res) => {
-    res.json({ message: 'Hello from the API!' })
-})
-app.get('/api/data', (req, res) => {
-    res.json({ data: 'This is some data from the server!' })
-})
-app.get('/api/data/:id', (req, res) => {
-    const id = req.params.id;
-    res.json({ data: `This is some data from the server with id ${id}!` })
-})
+app.use(cors());
+app.use(express.json());
 
-app.get('/api/data/:id/:name', (req, res) => {
-    const id = req.params.id;
-    const name = req.params.name;
-    res.json({ data: `This is some data from the server with id ${id} and name ${name}!` })
-}
-)
+app.use("/api", router)
 
-app.listen(port, () => {
-    
-    console.log(`Example app listening at http://localhost:${port}`)
-})
+const PORT = process.env.PORT || 5000;
+const MONGO_URI = process.env.MONGO_URI 
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("MongoDB Connected");
+    app.listen(PORT, () => console.log("Server running on port 5000"));
+  })
+  .catch(err => console.log(err));
