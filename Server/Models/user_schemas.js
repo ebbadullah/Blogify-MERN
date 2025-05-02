@@ -27,15 +27,3 @@ const userSchema = new mongoose.Schema({
 
 
 
-
-// // Password ko hash karna (save ke time pe)
-// userSchema.pre('save', async function(next) {
-//   if (!this.isModified('password')) {
-//     return next();
-//   }
-
-//   const salt = await bcrypt.genSalt(10);  // Salt generate karte hain
-//   this.password = await bcrypt.hash(this.password, salt);  // Password ko hash karte hain
-//   next();
-// });
-
