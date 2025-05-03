@@ -1,6 +1,9 @@
-
 import { useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
+import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
+
+const API_URL = 'http://localhost:3000/api';
 
 const AuthForm = () => {
   const [searchParams] = useSearchParams();
@@ -12,6 +15,7 @@ const AuthForm = () => {
     password: "",
     confirmPassword: "",
   });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const mode = searchParams.get("mode");
@@ -35,20 +39,74 @@ const AuthForm = () => {
     navigate(`/auth${!isLogin ? "" : "?mode=signup"}`);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+    setLoading(true);
 
-    setFormData({
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    });
+    if (!isLogin && formData.password !== formData.confirmPassword) {
+      toast.error("Passwords don't match!", {
+        position: "top-right",
+        duration: 4000,
+        style: {
+          background: '#FF3333',
+          color: '#fff',
+        },
+      });
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const url = isLogin ? `${API_URL}/signin` : `${API_URL}/signup`;
+      const data = isLogin
+        ? { email: formData.email, password: formData.password }
+        : { name: formData.name, email: formData.email, password: formData.password };
+
+      const response = await axios.post(url, data);
+
+      toast.success(
+        isLogin ? "Login successful! Redirecting..." : "Account created successfully!",
+        {
+          position: "top-right",
+          duration: 2000,
+          style: {
+            background: '#4BB543',
+            color: '#fff',
+          },
+        }
+      );
+
+      setTimeout(() => navigate("/"), 2000);
+    } catch (err) {
+      const errorMsg = err.response?.data?.message || "Something went wrong";
+      toast.error(errorMsg, {
+        position: "top-right",
+        duration: 4000,
+        style: {
+          background: '#FF3333',
+          color: '#fff',
+        },
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="bg-white p-8 rounded-lg shadow-xl max-w-md w-full mx-auto">
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          className: '',
+          style: {
+            margin: '40px',
+            background: '#363636',
+            color: '#fff',
+            boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+          },
+        }}
+      />
+
       <h2 className="text-3xl font-extrabold text-center text-black mb-6">
         {isLogin ? "Sign in to your account" : "Create a new account"}
       </h2>
@@ -56,10 +114,7 @@ const AuthForm = () => {
       <form onSubmit={handleSubmit} className="space-y-6">
         {!isLogin && (
           <div>
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
               Full Name
             </label>
             <div className="mt-1">
@@ -78,10 +133,7 @@ const AuthForm = () => {
         )}
 
         <div>
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
             Email address
           </label>
           <div className="mt-1">
@@ -100,10 +152,7 @@ const AuthForm = () => {
         </div>
 
         <div>
-          <label
-            htmlFor="password"
-            className="block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="password" className="block text-sm font-medium text-gray-700">
             Password
           </label>
           <div className="mt-1">
@@ -123,10 +172,7 @@ const AuthForm = () => {
 
         {!isLogin && (
           <div>
-            <label
-              htmlFor="confirmPassword"
-              className="block text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
               Confirm Password
             </label>
             <div className="mt-1">
@@ -147,10 +193,7 @@ const AuthForm = () => {
         {isLogin && (
           <div className="flex items-center justify-end">
             <div className="text-sm">
-              <a
-                href="#"
-                className="font-medium text-black hover:text-gray-800 transition-all duration-300"
-              >
+              <a href="#" className="font-medium text-black hover:text-gray-800 transition-all duration-300">
                 Forgot your password?
               </a>
             </div>
@@ -160,9 +203,12 @@ const AuthForm = () => {
         <div>
           <button
             type="submit"
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition-all duration-300"
+            disabled={loading}
+            className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition-all duration-300 ${
+              loading ? "opacity-70 cursor-not-allowed" : ""
+            }`}
           >
-            {isLogin ? "Sign in" : "Sign up"}
+            {loading ? "Processing..." : isLogin ? "Sign in" : "Sign up"}
           </button>
         </div>
       </form>
