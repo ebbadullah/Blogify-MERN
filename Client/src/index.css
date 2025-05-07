@@ -1,1 +1,51 @@
 @import "tailwindcss";
+
+
+@keyframes loadingBar {
+  0% {
+    width: 0%;
+  }
+  50% {
+    width: 70%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.animate-loadingBar {
+  animation: loadingBar 2s infinite;
+}
+
+/* Add smooth transitions for form elements */
+input,
+textarea,
+button {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Custom focus styles */
+input:focus,
+textarea:focus {
+  @apply ring-2 ring-black ring-opacity-50;
+}
+
+/* Placeholder animation */
+@keyframes placeholderShimmer {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+.animate-placeholder {
+  animation-duration: 1.5s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: placeholderShimmer;
+  animation-timing-function: linear;
+  background: linear-gradient(to right, #f6f7f8 8%, #edeef1 18%, #f6f7f8 33%);
+  background-size: 800px 104px;
+}

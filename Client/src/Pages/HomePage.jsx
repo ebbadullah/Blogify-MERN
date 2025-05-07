@@ -1,6 +1,36 @@
+"use client"
+
+import { useEffect } from "react"
+import toast from "react-hot-toast"
 import BlogSection from "../components/Blog/BlogSection"
 
 const HomePage = () => {
+  useEffect(() => {
+    // Check if we should show the welcome toast (only after login/signup)
+    const shouldShowWelcomeToast = localStorage.getItem("showWelcomeToast")
+
+    if (shouldShowWelcomeToast) {
+      // Get user data from JWT token
+      const userData = JSON.parse(localStorage.getItem("user") || "{}")
+      const userName = userData.name || "User"
+
+      // Show welcome toast
+      toast.success(
+        <div className="flex flex-col">
+          <span className="font-bold">Welcome, {userName}!</span>
+          <span className="text-sm">You're successfully logged in</span>
+        </div>,
+        {
+          icon: "👋",
+          duration: 5000,
+        },
+      )
+
+      // Remove the flag so toast doesn't show again on page refresh
+      localStorage.removeItem("showWelcomeToast")
+    }
+  }, [])
+
   return (
     <div>
       <section className="bg-black text-white py-20">
@@ -62,7 +92,7 @@ const HomePage = () => {
               <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3 sm:flex-shrink-0">
                 <button
                   type="submit"
-                  className="w-full flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition-colors duration-300"
+                  className="w-full flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition-all duration-300"
                 >
                   Subscribe
                 </button>
