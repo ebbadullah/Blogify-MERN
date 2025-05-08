@@ -41,49 +41,54 @@ const AuthForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
+  
+    // Validate password match for signup
     if (!isLogin && formData.password !== formData.confirmPassword) {
       toast.error("Passwords don't match!");
       setLoading(false);
       return;
     }
-
+  
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      // Mock successful login/signup
-      const mockUser = {
-        id: "user123",
-        name: formData.name || "User",
-        email: formData.email,
-      };
-
+      const endpoint = isLogin ? "/api/signin" : "/api/signup";
+      const body = isLogin 
+        ? { email: formData.email, password: formData.password }
+        : { name: formData.name, email: formData.email, password: formData.password };
+  
+      const response = await fetch(`http://localhost:3000${endpoint}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+        credentials: "include",
+      });
+  
+      const data = await response.json();
+  
+      if (!response.ok) {
+        throw new Error(data.error || "Something went wrong");
+      }
+  
       // Store token and user data
-      localStorage.setItem("token", "mock-jwt-token");
-      localStorage.setItem("user", JSON.stringify(mockUser));
-
-      // Set a flag to show welcome toast ONLY after login/signup
-      // This flag will be removed after showing the toast
-      localStorage.setItem("showWelcomeToast", "true");
-
-      // Dispatch custom event to notify App.jsx about auth change
-      window.dispatchEvent(new Event("authChange"));
-
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+  
       // Show success message
       toast.success(
         isLogin ? "Login successful!" : "Account created successfully!"
       );
-
-      // Redirect to home page
-      navigate("/");
+  
+      // Force full page reload to properly switch between pre-auth and post-auth layouts
+      window.location.href = "/";
+      
     } catch (err) {
       toast.error(err.message || "Something went wrong");
     } finally {
       setLoading(false);
     }
   };
-
+  
   return (
     <div className="bg-white p-8 rounded-lg shadow-xl max-w-md w-full mx-auto">
       <h2 className="text-3xl font-extrabold text-center text-black mb-6">

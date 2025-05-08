@@ -1,58 +1,37 @@
-// import express from "express";
-// import mongoose from "mongoose";
-// import dotenv from "dotenv";
-// import cors from "cors";
-// import router from "./Routes/router.js";
-
-// dotenv.config();
-// const app = express();
-
-// app.use(cors());
-// app.use(express.json());
-
-// app.use("/api", router);
-
-// const PORT = process.env.PORT || 5000;
-// const MONGO_URI =
-//   process.env.MONGO_URI ||
-//   "mongodb+srv://ebaddata021:ebadhunmekiakaregat0@cluster0.kpb2neh.mongodb.net/Blog";
-// mongoose
-//   .connect(process.env.MONGO_URI)
-//   .then(() => {
-//     console.log("MongoDB Connected");
-//     app.listen(PORT, () => console.log("Server running on port 5000"));
-//   })
-//   .catch((err) => console.log(err));
-
-
-
-
-import express from "express";
-import mongoose from "mongoose";
-import dotenv from "dotenv";
-import cors from "cors";
-import router from "./Routes/router.js";
+import express from 'express';
+import dotenv from 'dotenv';
+import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import cookieParser from 'cookie-parser'; // Add this line
+import connectDB from './Config/db_connection.js';
+import router from './Routes/router.js';
 
 dotenv.config();
+
+// Initialize express
 const app = express();
 
+// Get directory name
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Middleware
 app.use(cors({
   origin: "http://localhost:5173",
   credentials: true
 }));
-
 app.use(express.json());
+app.use(cookieParser()); // Add this line
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use("/api", router);
 
+// Server setup
 const PORT = process.env.PORT || 5000;
-const MONGO_URI =
-  process.env.MONGO_URI ||
-  "mongodb+srv://ebaddata021:ebadhunmekiakaregat0@cluster0.kpb2neh.mongodb.net/Blog";
 
-mongoose
-  .connect(MONGO_URI)
-  .then(() => {
-    console.log("MongoDB Connected");
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-  })
-  .catch((err) => console.log(err));
+// Start server after DB connection
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+});

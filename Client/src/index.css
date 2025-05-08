@@ -27,7 +27,7 @@ button {
 /* Custom focus styles */
 input:focus,
 textarea:focus {
-  @apply ring-2 ring-black ring-opacity-50;
+  /* @apply ring-2 ring-black ring-opacity-50; */
 }
 
 /* Placeholder animation */

@@ -1,10 +1,9 @@
 // CreateBlogForm.jsx
-"use client"
-
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { ImageIcon, X, FileText, User, ArrowLeft } from "lucide-react"
 import toast from "react-hot-toast"
+import axios from "axios"
 
 const CreateBlogForm = () => {
   const navigate = useNavigate()
@@ -48,12 +47,36 @@ const CreateBlogForm = () => {
     setLoading(true)
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500))
-      console.log("Blog post data:", formData)
-      toast.success("Blog post published successfully!")
+      const formDataToSend = new FormData()
+      formDataToSend.append('title', formData.title)
+      formDataToSend.append('author', formData.author)
+      formDataToSend.append('description', formData.description)
+      if (formData.image) {
+        formDataToSend.append('image', formData.image)
+      }
+
+      const response = await axios.post('http://localhost:3000/api/blogs', formDataToSend, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+
+      console.log("Server response:", response.data)
+      toast.success("Blog saved successfully!")
       navigate("/profile")
+      
     } catch (error) {
-      toast.error("Failed to publish blog post.")
+      console.error("Error:", error)
+      if (error.response) {
+        // Server responded with error status
+        toast.error(error.response.data.error || "Failed to save blog")
+      } else if (error.request) {
+        // Request was made but no response
+        toast.error("No response from server")
+      } else {
+        // Other errors
+        toast.error("Error: " + error.message)
+      }
     } finally {
       setLoading(false)
     }
