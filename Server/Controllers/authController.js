@@ -2,16 +2,18 @@ import User from "../Models/user_schemas.js";
 import bcrypt from "bcryptjs";
 import jwt from 'jsonwebtoken';
 
+// Generate JWT token
 const generateToken = (userId) => {
   return jwt.sign({ _id: userId }, process.env.JWT_SECRET || 'simpleSecret123', {
     expiresIn: '7d'
   });
 };
 
+// Signup controller
 const signup = async (req, res) => {
+  const { name, email, password } = req.body;
+  
   try {
-    const { name, email, password } = req.body;
-    
     // Validate input
     if (!name || !email || !password) {
       return res.status(400).json({ error: 'All fields are required' });
@@ -27,17 +29,24 @@ const signup = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     
     // Create user
-    const user = await new User({
+    const user = await User.create({
       name,
       email,
       password: hashedPassword
-    }).save();
+    });
     
     // Generate token
     const token = generateToken(user._id);
     
+    // Set cookie
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+    });
+    
     res.status(201).json({ 
-      token,
       user: {
         id: user._id,
         name: user.name,
@@ -46,15 +55,16 @@ const signup = async (req, res) => {
     });
     
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Server error' });
+    console.error('Signup error:', err);
+    res.status(500).json({ error: 'Server error during signup' });
   }
 };
 
+// Signin controller
 const signin = async (req, res) => {
+  const { email, password } = req.body;
+  
   try {
-    const { email, password } = req.body;
-    
     // Validate input
     if (!email || !password) {
       return res.status(400).json({ error: 'Email and password are required' });
@@ -75,8 +85,15 @@ const signin = async (req, res) => {
     // Generate token
     const token = generateToken(user._id);
     
+    // Set cookie
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+    });
+    
     res.json({ 
-      token,
       user: {
         id: user._id,
         name: user.name,
@@ -85,8 +102,8 @@ const signin = async (req, res) => {
     });
     
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Server error' });
+    console.error('Signin error:', err);
+    res.status(500).json({ error: 'Server error during signin' });
   }
 };
 
