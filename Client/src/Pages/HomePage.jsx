@@ -67,7 +67,7 @@ const HomePage = () => {
 
             <motion.h1
               variants={textVariant(0.3)}
-              className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white tracking-tight"
+              className="text-5xl md:text-6xl lg:text-7xl font-serif font-bold text-white tracking-tight leading-tight"
             >
               <span className="block">Welcome to Blogify</span>
               <span className="block mt-2 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
@@ -75,12 +75,15 @@ const HomePage = () => {
               </span>
             </motion.h1>
 
-            <motion.p variants={fadeIn("up", 0.5)} className="mt-6 max-w-lg mx-auto text-xl text-gray-300 sm:max-w-3xl">
+            <motion.p
+              variants={fadeIn("up", 0.5)}
+              className="mt-8 max-w-lg mx-auto text-xl md:text-2xl text-gray-300 font-light sm:max-w-3xl leading-relaxed"
+            >
               Discover stories, thinking, and expertise from writers on any topic. Join our community of creators and
               readers today.
             </motion.p>
 
-            <motion.div variants={fadeIn("up", 0.7)} className="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+            <motion.div variants={fadeIn("up", 0.7)} className="mt-12 flex flex-col sm:flex-row justify-center gap-4">
               <Link
                 to="/create-blog"
                 className="group w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 text-base font-medium rounded-full text-black bg-white hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl"
@@ -111,7 +114,7 @@ const HomePage = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-12 bg-gradient-to-b from-black to-gray-900 text-white">
+      <section className="py-16 bg-gradient-to-b from-black to-gray-900 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             variants={staggerContainer(0.1, 0)}
@@ -135,12 +138,12 @@ const HomePage = () => {
                   initial={{ opacity: 0, scale: 0.5 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
-                  className="text-4xl font-bold"
+                  className="text-4xl font-serif font-bold"
                 >
                   <FullCountUp end={stat.number} duration={2.5} />
                   {stat.suffix}
                 </motion.p>
-                <p className="text-gray-400 mt-2">{stat.label}</p>
+                <p className="text-gray-400 mt-2 font-light">{stat.label}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -151,11 +154,11 @@ const HomePage = () => {
       <section id="featured" className="py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-black">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-gray-900 leading-tight">
               Why Choose{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-gray-600">Blogify</span>
             </h2>
-            <p className="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
+            <p className="mt-6 max-w-2xl mx-auto text-xl text-gray-600 font-light leading-relaxed">
               Everything you need to create, publish, and grow your blog.
             </p>
           </AnimatedSection>
@@ -190,8 +193,8 @@ const HomePage = () => {
                 <div className="flex items-center justify-center h-14 w-14 rounded-full bg-black text-white mb-6">
                   {feature.icon}
                 </div>
-                <h3 className="text-xl font-bold text-black mb-3">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
+                <h3 className="text-2xl font-serif font-medium text-gray-900 mb-3">{feature.title}</h3>
+                <p className="text-gray-600 font-light leading-relaxed">{feature.description}</p>
               </AnimatedSection>
             ))}
           </div>
@@ -213,7 +216,7 @@ const HomePage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="text-3xl md:text-4xl font-extrabold mb-6"
+                className="text-3xl md:text-4xl font-serif font-bold mb-6"
               >
                 Join Our Newsletter
               </motion.h2>
@@ -221,7 +224,7 @@ const HomePage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
-                className="text-lg text-gray-300 mb-8"
+                className="text-xl text-gray-300 font-light mb-8 leading-relaxed"
               >
                 Get the latest articles, resources, and updates directly in your inbox. No spam, unsubscribe anytime.
               </motion.p>
@@ -272,8 +275,8 @@ const HomePage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection className="flex flex-col md:flex-row items-center justify-between gap-10 p-10 bg-gradient-to-r from-gray-900 to-black rounded-3xl text-white">
             <div className="md:max-w-xl">
-              <h2 className="text-3xl font-bold mb-4">Ready to start your blogging journey?</h2>
-              <p className="text-gray-300">
+              <h2 className="text-3xl font-serif font-bold mb-4">Ready to start your blogging journey?</h2>
+              <p className="text-xl text-gray-300 font-light leading-relaxed">
                 Join thousands of writers who have already started their journey with Blogify. It's free to get started!
               </p>
             </div>

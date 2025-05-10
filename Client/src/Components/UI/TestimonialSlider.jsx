@@ -22,21 +22,14 @@ const TestimonialSlider = ({ testimonials }) => {
     return () => window.removeEventListener("resize", updateWidth)
   }, [testimonials])
 
-  const handleNext = () => {
-    if (activeIndex < testimonials.length - 1) {
-      setActiveIndex(activeIndex + 1)
-    } else {
-      setActiveIndex(0) // Loop back to the first slide
-    }
-  }
+  // Auto-advance the slider
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveIndex((prevIndex) => (prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1))
+    }, 5000)
 
-  const handlePrev = () => {
-    if (activeIndex > 0) {
-      setActiveIndex(activeIndex - 1)
-    } else {
-      setActiveIndex(testimonials.length - 1) // Loop to the last slide
-    }
-  }
+    return () => clearInterval(interval)
+  }, [testimonials.length])
 
   // Calculate the drag constraints based on the number of testimonials
   const calculateDragConstraints = () => {
@@ -69,27 +62,27 @@ const TestimonialSlider = ({ testimonials }) => {
               <motion.div
                 whileHover={{ y: -10 }}
                 transition={{ type: "spring", stiffness: 300 }}
-                className="bg-white p-6 rounded-lg shadow-sm h-full"
+                className="bg-white p-8 rounded-xl shadow-md h-full flex flex-col"
               >
-                <div className="flex items-center mb-4">
+                <div className="flex items-center mb-6">
                   <div className="flex-shrink-0">
                     <motion.img
                       whileHover={{ scale: 1.1 }}
-                      className="h-12 w-12 rounded-full object-cover"
+                      className="h-14 w-14 rounded-full object-cover ring-2 ring-gray-100"
                       src={testimonial.image}
                       alt={testimonial.name}
                     />
                   </div>
                   <div className="ml-4">
-                    <h3 className="text-lg font-medium text-black">{testimonial.name}</h3>
-                    <div className="flex text-yellow-400">
+                    <h3 className="text-xl font-serif font-medium text-gray-900">{testimonial.name}</h3>
+                    <div className="flex text-yellow-400 mt-1">
                       {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-5 w-5" />
+                        <Star key={i} className="h-4 w-4 fill-current" />
                       ))}
                     </div>
                   </div>
                 </div>
-                <p className="text-gray-600 italic">"{testimonial.quote}"</p>
+                <p className="text-gray-600 italic font-light leading-relaxed flex-grow">"{testimonial.quote}"</p>
               </motion.div>
             </motion.div>
           ))}
@@ -97,7 +90,7 @@ const TestimonialSlider = ({ testimonials }) => {
       </motion.div>
 
       {/* Dots Indicator */}
-      <div className="flex justify-center mt-6 space-x-2">
+      <div className="flex justify-center mt-8 space-x-2">
         {testimonials.map((_, index) => (
           <motion.button
             key={index}

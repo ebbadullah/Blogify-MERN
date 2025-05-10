@@ -11,43 +11,49 @@ const AboutPage = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="bg-black text-white py-12"
+        className="bg-black text-white py-16 md:py-24"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.h1
             variants={textVariant(0.1)}
             initial="hidden"
             animate="show"
-            className="text-3xl font-extrabold tracking-tight sm:text-4xl"
+            className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold tracking-tight leading-tight"
           >
             About Us
           </motion.h1>
-          <motion.p variants={fadeIn("up", 0.2)} initial="hidden" animate="show" className="mt-4 text-lg text-gray-300">
+          <motion.p
+            variants={fadeIn("up", 0.2)}
+            initial="hidden"
+            animate="show"
+            className="mt-6 text-xl md:text-2xl text-gray-300 font-light max-w-3xl"
+          >
             Learn more about our mission, values, and the team behind Blogify.
           </motion.p>
         </div>
       </motion.div>
 
-      <section className="py-12">
+      <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection className="lg:text-center">
-            <h2 className="text-base text-black font-semibold tracking-wide uppercase">Our Mission</h2>
-            <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-black sm:text-4xl">
-              Empowering Writers, Inspiring Readers
+            <h2 className="text-sm uppercase tracking-widest text-gray-500 font-medium mb-3">Our Mission</h2>
+            <p className="mt-2 text-3xl md:text-4xl lg:text-5xl font-serif font-bold tracking-tight text-gray-900 leading-tight">
+              Empowering Writers, <br className="hidden md:block" />
+              Inspiring Readers
             </p>
-            <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+            <p className="mt-8 max-w-2xl text-xl text-gray-600 font-light lg:mx-auto leading-relaxed">
               We're on a mission to create a platform where writers can share their knowledge and readers can discover
               valuable insights.
             </p>
           </AnimatedSection>
 
-          <div className="mt-16">
+          <div className="mt-24">
             <motion.div
               variants={staggerContainer(0.1, 0.2)}
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, amount: 0.25 }}
-              className="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10"
+              className="space-y-16 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-12 md:gap-y-16"
             >
               {[
                 {
@@ -116,8 +122,8 @@ const AboutPage = () => {
                     {feature.icon}
                   </div>
                   <div className="ml-16">
-                    <h3 className="text-lg leading-6 font-medium text-black">{feature.title}</h3>
-                    <p className="mt-2 text-base text-gray-500">{feature.description}</p>
+                    <h3 className="text-xl font-medium text-gray-900 mb-2">{feature.title}</h3>
+                    <p className="text-base text-gray-600 leading-relaxed">{feature.description}</p>
                   </div>
                 </motion.div>
               ))}
@@ -126,11 +132,11 @@ const AboutPage = () => {
         </div>
       </section>
 
-      <section className="py-12 bg-gray-50">
+      <section className="py-16 md:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <AnimatedSection className="lg:text-center mb-12">
-            <h2 className="text-base text-black font-semibold tracking-wide uppercase">Our Team</h2>
-            <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-black sm:text-4xl">
+          <AnimatedSection className="text-center mb-16">
+            <h2 className="text-sm uppercase tracking-widest text-gray-500 font-medium mb-3">Our Team</h2>
+            <p className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold tracking-tight text-gray-900 leading-tight">
               Meet the People Behind Blogify
             </p>
           </AnimatedSection>
@@ -140,7 +146,7 @@ const AboutPage = () => {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, amount: 0.25 }}
-            className="grid grid-cols-1 gap-12 sm:grid-cols-2 md:grid-cols-3"
+            className="grid grid-cols-1 gap-16 sm:grid-cols-2 md:grid-cols-3"
           >
             {[
               {
@@ -165,7 +171,7 @@ const AboutPage = () => {
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   transition={{ type: "spring", stiffness: 300 }}
-                  className="mx-auto h-40 w-40 rounded-full xl:h-56 xl:w-56 overflow-hidden"
+                  className="mx-auto h-48 w-48 rounded-full xl:h-64 xl:w-64 overflow-hidden mb-8"
                 >
                   <img
                     className="h-full w-full object-cover"
@@ -173,27 +179,25 @@ const AboutPage = () => {
                     alt={`${member.name} - Team member`}
                   />
                 </motion.div>
-                <div className="mt-6">
-                  <h3 className="text-lg font-medium text-black">{member.name}</h3>
-                  <p className="text-sm text-gray-500">{member.role}</p>
-                  <div className="mt-2 flex justify-center space-x-3">
-                    <a href="#" className="text-gray-400 hover:text-gray-500">
-                      <span className="sr-only">Twitter</span>
-                      <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                        <path d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84" />
-                      </svg>
-                    </a>
-                    <a href="#" className="text-gray-400 hover:text-gray-500">
-                      <span className="sr-only">LinkedIn</span>
-                      <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                        <path
-                          fillRule="evenodd"
-                          d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </a>
-                  </div>
+                <h3 className="text-2xl font-serif font-medium text-gray-900 mb-1">{member.name}</h3>
+                <p className="text-lg text-gray-600 mb-4">{member.role}</p>
+                <div className="flex justify-center space-x-4">
+                  <a href="#" className="text-gray-400 hover:text-gray-800 transition-colors">
+                    <span className="sr-only">Twitter</span>
+                    <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                      <path d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84" />
+                    </svg>
+                  </a>
+                  <a href="#" className="text-gray-400 hover:text-gray-800 transition-colors">
+                    <span className="sr-only">LinkedIn</span>
+                    <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                      <path
+                        fillRule="evenodd"
+                        d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </a>
                 </div>
               </motion.div>
             ))}
@@ -201,34 +205,30 @@ const AboutPage = () => {
         </div>
       </section>
 
-      <section className="py-12">
+      <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection className="lg:text-center">
-            <h2 className="text-base text-black font-semibold tracking-wide uppercase">Join Us</h2>
-            <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-black sm:text-4xl">
+            <h2 className="text-sm uppercase tracking-widest text-gray-500 font-medium mb-3">Join Us</h2>
+            <p className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold tracking-tight text-gray-900 leading-tight">
               Be Part of Our Journey
             </p>
-            <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+            <p className="mt-8 max-w-2xl text-xl text-gray-600 font-light lg:mx-auto leading-relaxed">
               Whether you're a writer looking to share your knowledge or a reader seeking valuable insights, we welcome
               you to join our community.
             </p>
-            <div className="mt-8 flex justify-center">
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="inline-flex rounded-md shadow"
-              >
+            <div className="mt-12 flex flex-col sm:flex-row justify-center gap-4">
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <a
                   href="#"
-                  className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-black hover:bg-gray-800 transition-colors duration-300"
+                  className="w-full inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium text-white bg-black hover:bg-gray-800 transition-colors duration-300"
                 >
                   Get Started
                 </a>
               </motion.div>
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="ml-3 inline-flex">
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <a
                   href="#"
-                  className="inline-flex items-center justify-center px-5 py-3 border border-black text-base font-medium rounded-md text-black hover:bg-gray-50 transition-colors duration-300"
+                  className="w-full inline-flex items-center justify-center px-8 py-4 border border-black text-lg font-medium text-black hover:bg-gray-50 transition-colors duration-300"
                 >
                   Learn More
                 </a>
