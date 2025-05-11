@@ -31,19 +31,22 @@ const WelcomePage = () => {
         "I started my food blog on Blogify last year, and I've already gained over 10,000 followers! The analytics tools have been invaluable for understanding what my audience enjoys.",
     },
     {
-      image: "https://media.licdn.com/dms/image/v2/D4D03AQEnUw11W3ZTMg/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1728170985458?e=2147483647&v=beta&t=bvIWa91h3XcqKgFaGwbhbRXg_T2HjbXxAlKa2ladDp0",
+      image:
+        "https://media.licdn.com/dms/image/v2/D4D03AQEnUw11W3ZTMg/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1728170985458?e=2147483647&v=beta&t=bvIWa91h3XcqKgFaGwbhbRXg_T2HjbXxAlKa2ladDp0",
       name: "Ahmed Khan",
       quote:
         "The community aspect of Blogify is what sets it apart. I've received constructive feedback that has helped me improve my writing and grow my audience significantly.",
     },
     {
-      image: "https://media.licdn.com/dms/image/v2/D4D03AQHHFhfsVcHNJA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1698611108124?e=2147483647&v=beta&t=F3OKjPhn6qV4_G75Tm2efIjqQfwnzB8S5u4APRhYJvE",
+      image:
+        "https://media.licdn.com/dms/image/v2/D4D03AQHHFhfsVcHNJA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1698611108124?e=2147483647&v=beta&t=F3OKjPhn6qV4_G75Tm2efIjqQfwnzB8S5u4APRhYJvE",
       name: "Fatima Ali",
       quote:
         "I love how easy it is to customize my blog's appearance on Blogify. The templates are modern and professional, and I can make my blog truly reflect my personal brand.",
     },
     {
-      image: "https://media.licdn.com/dms/image/v2/D4E03AQGpUVRwomxQhA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1692849556097?e=2147483647&v=beta&t=vjFAv9XieuNvP0AsaTxmjQ3DQVskeM1DL4TBHjAQZN0",
+      image:
+        "https://media.licdn.com/dms/image/v2/D4E03AQGpUVRwomxQhA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1692849556097?e=2147483647&v=beta&t=vjFAv9XieuNvP0AsaTxmjQ3DQVskeM1DL4TBHjAQZN0",
       name: "Hassan Raza",
       quote:
         "The SEO tools built into Blogify have helped my content rank higher in search results. My traffic has doubled since I started implementing their optimization suggestions.",
@@ -52,7 +55,7 @@ const WelcomePage = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Simple Navbar for Welcome Page - without login/signup buttons */}
+      {/* Navbar with refined typography */}
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
@@ -86,15 +89,15 @@ const WelcomePage = () => {
                     strokeLinejoin="round"
                   />
                 </svg>
-                <span className="font-bold text-xl tracking-tight">BLOGIFY</span>
+                <span className="font-serif font-bold text-xl tracking-tight">BLOGIFY</span>
               </div>
             </div>
           </div>
         </div>
       </motion.nav>
 
-      {/* Hero Section - Enhanced with background image */}
-      <section className="relative bg-black text-white py-24 sm:py-32">
+      {/* Hero Section - Enhanced with background image and typography */}
+      <section className="relative bg-black text-white py-24 md:py-32 lg:py-40">
         {/* Background pattern overlay */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -107,34 +110,33 @@ const WelcomePage = () => {
           <motion.div variants={staggerContainer(0.1, 0.2)} initial="hidden" animate="show" className="text-center">
             <motion.h1
               variants={textVariant(0.1)}
-              className="text-5xl tracking-tight font-extrabold sm:text-6xl md:text-7xl"
+              className="text-5xl md:text-6xl lg:text-7xl font-serif font-bold tracking-tight leading-tight"
             >
               <span className="block">Welcome to Blogify</span>
-              <span className="block text-gray-300 mt-2">A Modern Blogging Platform</span>
+              <span className="block text-gray-300 mt-4 font-light">A Modern Blogging Platform</span>
             </motion.h1>
 
-            <motion.p variants={fadeIn("up", 0.2)} className="mt-6 max-w-lg mx-auto text-xl text-gray-300 sm:max-w-3xl">
+            <motion.p
+              variants={fadeIn("up", 0.2)}
+              className="mt-8 max-w-lg mx-auto text-xl md:text-2xl text-gray-300 font-light sm:max-w-3xl leading-relaxed"
+            >
               Discover stories, thinking, and expertise from writers on any topic. Join our community of creators and
               readers today.
             </motion.p>
 
-            <motion.div variants={fadeIn("up", 0.3)} className="mt-10 sm:flex sm:justify-center">
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="rounded-md shadow">
+            <motion.div variants={fadeIn("up", 0.3)} className="mt-12 flex flex-col sm:flex-row justify-center gap-4">
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Link
                   to="/auth?mode=signup"
-                  className="w-full flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-md text-black bg-white hover:bg-gray-200 transition-colors duration-300"
+                  className="w-full flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-full text-black bg-white hover:bg-gray-200 transition-colors duration-300 shadow-lg"
                 >
                   Join Now
                 </Link>
               </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3"
-              >
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Link
                   to="/auth"
-                  className="w-full flex items-center justify-center px-8 py-4 border border-white text-lg font-medium rounded-md text-white hover:bg-gray-900 transition-colors duration-300"
+                  className="w-full flex items-center justify-center px-8 py-4 border border-white/30 text-lg font-medium rounded-full text-white hover:bg-white/10 transition-colors duration-300"
                 >
                   Login
                 </Link>
@@ -144,45 +146,47 @@ const WelcomePage = () => {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-12 bg-gray-50">
+      {/* Stats Section - Refined with better typography */}
+      <section className="py-16 md:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             variants={staggerContainer(0.1, 0)}
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, amount: 0.25 }}
-            className="grid grid-cols-2 gap-6 md:grid-cols-4"
+            className="grid grid-cols-2 gap-8 md:grid-cols-4"
           >
             {[
-              { number: 10000, label: "Active Users" },
-              { number: 50000, label: "Blog Posts" },
-              { number: 100, label: "Countries" },
-              { number: 1000000, label: "Monthly Views" },
+              { number: 10000, label: "Active Users", suffix: "+" },
+              { number: 50000, label: "Blog Posts", suffix: "+" },
+              { number: 100, label: "Countries", suffix: "+" },
+              { number: 1000000, label: "Monthly Views", suffix: "+" },
             ].map((stat, index) => (
               <motion.div
                 key={index}
                 variants={fadeIn("up", 0.1 * index)}
                 whileHover={{ scale: 1.05 }}
-                className="bg-white p-6 rounded-lg shadow-sm text-center"
+                className="bg-white p-8 rounded-xl shadow-md text-center"
               >
-                <div className="text-4xl font-bold text-black">
+                <div className="text-4xl md:text-5xl font-serif font-bold text-gray-900 mb-2">
                   <FullCountUp end={stat.number} duration={2.5} />
+                  {stat.suffix}
                 </div>
-                <p className="text-gray-600 mt-2">{stat.label}</p>
+                <p className="text-gray-600 font-light text-lg">{stat.label}</p>
               </motion.div>
             ))}
           </motion.div>
         </div>
       </section>
 
-      {/* Features Section - Enhanced with icons */}
-      <section className="py-16 bg-white">
+      {/* Features Section - Enhanced with icons and typography */}
+      <section className="py-16 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <AnimatedSection className="text-center">
-            <h2 className="text-3xl font-extrabold text-black sm:text-4xl">Why Choose Blogify?</h2>
-            <p className="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
-              Everything you need to create, publish, and grow your blog.
+          <AnimatedSection className="text-center mb-16">
+            <h2 className="text-sm uppercase tracking-widest text-gray-500 font-medium mb-3">Why Choose Us</h2>
+            <p className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-gray-900 leading-tight">
+              Everything You Need to Create, <br className="hidden md:block" />
+              Publish, and Grow
             </p>
           </AnimatedSection>
 
@@ -193,21 +197,21 @@ const WelcomePage = () => {
             viewport={{ once: true, amount: 0.25 }}
             className="mt-16"
           >
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+            <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
               {[
                 {
-                  icon: <BookOpen className="h-6 w-6" />,
+                  icon: <BookOpen className="h-7 w-7" />,
                   title: "Easy to Use",
                   description:
                     "Our intuitive interface makes it simple to create and manage your blog posts. No technical skills required.",
                 },
                 {
-                  icon: <Users className="h-6 w-6" />,
+                  icon: <Users className="h-7 w-7" />,
                   title: "Global Reach",
                   description: "Share your ideas with readers from around the world and build your audience.",
                 },
                 {
-                  icon: <TrendingUp className="h-6 w-6" />,
+                  icon: <TrendingUp className="h-7 w-7" />,
                   title: "Analytics & Growth",
                   description: "Track your performance with detailed analytics and grow your readership.",
                 },
@@ -215,13 +219,13 @@ const WelcomePage = () => {
                 <motion.div
                   key={index}
                   variants={fadeIn("up", 0.1 * index)}
-                  className="bg-gray-50 p-6 rounded-lg transition-transform duration-300 hover:transform hover:scale-105"
+                  className="bg-gray-50 p-8 rounded-xl transition-transform duration-300 hover:transform hover:scale-105 shadow-md"
                 >
-                  <div className="flex items-center justify-center h-12 w-12 rounded-md bg-black text-white mx-auto">
+                  <div className="flex items-center justify-center h-14 w-14 rounded-full bg-black text-white mx-auto mb-6">
                     {feature.icon}
                   </div>
-                  <h3 className="mt-4 text-lg font-medium text-black text-center">{feature.title}</h3>
-                  <p className="mt-2 text-base text-gray-500 text-center">{feature.description}</p>
+                  <h3 className="text-2xl font-serif font-medium text-gray-900 text-center mb-3">{feature.title}</h3>
+                  <p className="text-gray-600 text-center font-light leading-relaxed">{feature.description}</p>
                 </motion.div>
               ))}
             </div>
@@ -229,12 +233,15 @@ const WelcomePage = () => {
         </div>
       </section>
 
-      {/* Testimonials Section - Now with Slider */}
-      <section className="py-16 bg-gray-50">
+      {/* Testimonials Section - Now with Slider and improved typography */}
+      <section className="py-16 md:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <AnimatedSection className="text-center mb-12">
-            <h2 className="text-3xl font-extrabold text-black sm:text-4xl">What Our Users Say</h2>
-            <p className="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
+          <AnimatedSection className="text-center mb-16">
+            <h2 className="text-sm uppercase tracking-widest text-gray-500 font-medium mb-3">Testimonials</h2>
+            <p className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-gray-900 leading-tight">
+              What Our Users Say
+            </p>
+            <p className="mt-6 max-w-2xl mx-auto text-xl text-gray-600 font-light leading-relaxed">
               Join thousands of satisfied bloggers on our platform.
             </p>
           </AnimatedSection>
@@ -250,12 +257,17 @@ const WelcomePage = () => {
         </div>
       </section>
 
-      {/* Featured Blogs Preview */}
-      <section className="py-16 bg-white">
+      {/* Featured Blogs Preview - Enhanced with typography */}
+      <section className="py-16 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <AnimatedSection className="text-center mb-12">
-            <h2 className="text-3xl font-extrabold text-black sm:text-4xl">Featured Blogs</h2>
-            <p className="mt-4 max-w-2xl mx-auto text-xl text-gray-500">Explore some of our most popular content.</p>
+          <AnimatedSection className="text-center mb-16">
+            <h2 className="text-sm uppercase tracking-widest text-gray-500 font-medium mb-3">Featured Content</h2>
+            <p className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-gray-900 leading-tight">
+              Explore Our Best Articles
+            </p>
+            <p className="mt-6 max-w-2xl mx-auto text-xl text-gray-600 font-light leading-relaxed">
+              Discover thought-provoking articles from our community of writers.
+            </p>
           </AnimatedSection>
 
           <motion.div
@@ -263,7 +275,7 @@ const WelcomePage = () => {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, amount: 0.25 }}
-            className="grid gap-8 md:grid-cols-3"
+            className="grid gap-10 md:grid-cols-3"
           >
             {[
               {
@@ -317,36 +329,38 @@ const WelcomePage = () => {
                 variants={fadeIn("up", 0.1 * index)}
                 whileHover={{ y: -10 }}
                 transition={{ type: "spring", stiffness: 300 }}
-                className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300"
+                className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300"
               >
-                <motion.img
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.3 }}
-                  className="w-full h-48 object-cover"
-                  src={blog.image}
-                  alt={blog.title}
-                />
-                <div className="p-6">
-                  <div className="flex items-center mb-2">
-                    <span className="bg-black text-white text-xs px-2 py-1 rounded-full uppercase tracking-wide">
+                <motion.div className="relative h-56 overflow-hidden">
+                  <motion.img
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: 0.4 }}
+                    className="w-full h-full object-cover"
+                    src={blog.image}
+                    alt={blog.title}
+                  />
+                  <div className="absolute top-4 left-4">
+                    <span className="bg-black text-white text-xs px-3 py-1.5 rounded-full uppercase tracking-wide font-medium">
                       {blog.category}
                     </span>
-                    <span className="ml-2 text-gray-500 text-sm">{blog.date}</span>
                   </div>
-                  <h3 className="text-xl font-bold mb-2 text-black">{blog.title}</h3>
-                  <p className="text-gray-600 mb-4 line-clamp-3">{blog.excerpt}</p>
-                  <div className="flex items-center justify-between">
+                </motion.div>
+                <div className="p-6">
+                  <div className="text-gray-500 text-sm mb-3 font-light">{blog.date}</div>
+                  <h3 className="text-2xl font-serif font-medium mb-3 text-gray-900 line-clamp-2">{blog.title}</h3>
+                  <p className="text-gray-600 mb-6 line-clamp-3 font-light leading-relaxed">{blog.excerpt}</p>
+                  <div className="flex items-center justify-between pt-4 border-t border-gray-100">
                     <div className="flex items-center">
                       <img
-                        className="h-8 w-8 rounded-full mr-2"
+                        className="h-10 w-10 rounded-full object-cover mr-3 ring-2 ring-white"
                         src={blog.author.image || "/placeholder.svg"}
                         alt={blog.author.name}
                       />
-                      <span className="text-sm text-gray-700">{blog.author.name}</span>
+                      <span className="text-sm font-medium text-gray-900">{blog.author.name}</span>
                     </div>
                     <div className="flex items-center text-gray-500 text-sm">
                       <MessageSquare className="h-4 w-4 mr-1" />
-                      <span>{blog.comments} comments</span>
+                      <span>{blog.comments}</span>
                     </div>
                   </div>
                 </div>
@@ -356,31 +370,31 @@ const WelcomePage = () => {
         </div>
       </section>
 
-      {/* CTA Section - Enhanced */}
-      <section className="py-16 bg-gray-50">
+      {/* CTA Section - Enhanced with typography */}
+      <section className="py-16 md:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
             <motion.div
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
-              className="bg-black rounded-lg shadow-xl overflow-hidden"
+              className="bg-black rounded-xl shadow-xl overflow-hidden"
             >
-              <div className="px-6 py-12 sm:px-12 lg:py-16 lg:pr-0 xl:py-20 xl:px-20">
-                <div className="lg:self-center">
-                  <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
-                    <span className="block">Ready to start blogging?</span>
+              <div className="px-8 py-16 md:p-16 lg:p-20">
+                <div className="max-w-xl">
+                  <h2 className="text-3xl md:text-4xl font-serif font-bold text-white leading-tight mb-6">
+                    Ready to start your blogging journey?
                   </h2>
-                  <p className="mt-4 text-lg leading-6 text-gray-300">
+                  <p className="text-xl text-gray-300 font-light leading-relaxed mb-8">
                     Join thousands of writers who have already started their journey with Blogify. It's free to get
                     started!
                   </p>
                   <motion.div whileHover={{ scale: 1.05, x: 5 }} whileTap={{ scale: 0.95 }}>
                     <Link
                       to="/auth?mode=signup"
-                      className="mt-8 bg-white border border-transparent rounded-md shadow px-6 py-3 inline-flex items-center text-base font-medium text-black hover:bg-gray-200 transition-all duration-300"
+                      className="inline-flex items-center px-8 py-4 bg-white border border-transparent rounded-full shadow-lg text-base font-medium text-black hover:bg-gray-100 transition-all duration-300"
                     >
                       Get started today
-                      <ArrowRight className="ml-3 -mr-1 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+                      <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
                     </Link>
                   </motion.div>
                 </div>
@@ -390,18 +404,18 @@ const WelcomePage = () => {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-black text-white py-12">
+      {/* Footer - Enhanced with typography */}
+      <footer className="bg-black text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             variants={staggerContainer(0.1, 0.2)}
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, amount: 0.1 }}
-            className="grid grid-cols-1 md:grid-cols-4 gap-8"
+            className="grid grid-cols-1 md:grid-cols-4 gap-12"
           >
             <motion.div variants={fadeIn("right", 0.1)} className="col-span-1 md:col-span-2">
-              <div className="flex items-center mb-4">
+              <div className="flex items-center mb-6">
                 <svg className="h-8 w-8 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M12 2L2 7L12 12L22 7L12 2Z"
@@ -425,20 +439,23 @@ const WelcomePage = () => {
                     strokeLinejoin="round"
                   />
                 </svg>
-                <span className="font-bold text-xl tracking-tight">BLOGIFY</span>
+                <span className="font-serif font-bold text-2xl tracking-tight">BLOGIFY</span>
               </div>
-              <p className="text-gray-400 mb-4">
+              <p className="text-gray-400 mb-6 font-light leading-relaxed text-lg">
                 A modern platform for writers and readers to connect through engaging content. Share your stories,
                 ideas, and expertise with the world.
               </p>
             </motion.div>
 
             <motion.div variants={fadeIn("up", 0.2)}>
-              <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase mb-4">Resources</h3>
-              <ul className="space-y-3">
+              <h3 className="text-sm uppercase tracking-widest text-gray-400 font-medium mb-6">Resources</h3>
+              <ul className="space-y-4">
                 {["Help Center", "Blog", "Tutorials"].map((item, index) => (
                   <motion.li key={index} whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                    <a href="#" className="text-base text-gray-300 hover:text-white transition-colors duration-300">
+                    <a
+                      href="#"
+                      className="text-base text-gray-300 hover:text-white transition-colors duration-300 font-light"
+                    >
                       {item}
                     </a>
                   </motion.li>
@@ -447,11 +464,14 @@ const WelcomePage = () => {
             </motion.div>
 
             <motion.div variants={fadeIn("up", 0.3)}>
-              <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase mb-4">Legal</h3>
-              <ul className="space-y-3">
+              <h3 className="text-sm uppercase tracking-widest text-gray-400 font-medium mb-6">Legal</h3>
+              <ul className="space-y-4">
                 {["Privacy Policy", "Terms of Service", "Cookie Policy"].map((item, index) => (
                   <motion.li key={index} whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                    <a href="#" className="text-base text-gray-300 hover:text-white transition-colors duration-300">
+                    <a
+                      href="#"
+                      className="text-base text-gray-300 hover:text-white transition-colors duration-300 font-light"
+                    >
                       {item}
                     </a>
                   </motion.li>
@@ -465,9 +485,9 @@ const WelcomePage = () => {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true }}
-            className="mt-8 pt-8 border-t border-gray-700"
+            className="mt-12 pt-8 border-t border-gray-800"
           >
-            <p className="text-base text-gray-400 text-center">
+            <p className="text-base text-gray-400 text-center font-light">
               &copy; {new Date().getFullYear()} Blogify. All rights reserved.
             </p>
           </motion.div>

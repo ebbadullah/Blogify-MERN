@@ -1,0 +1,432 @@
+"use client"
+
+import { useState, useEffect, useRef } from "react"
+import { useNavigate } from "react-router-dom"
+import { motion } from "framer-motion"
+import {
+  Camera,
+  Save,
+  X,
+  MapPin,
+  Mail,
+  User,
+  Globe,
+  Twitter,
+  Instagram,
+  GitlabIcon as GitHub,
+  Linkedin,
+} from "lucide-react"
+import toast from "react-hot-toast"
+import AnimatedSection from "../Components/UI/AnimatedSection"
+import { fadeIn } from "../Utils/motion"
+
+const EditProfilePage = () => {
+  const navigate = useNavigate()
+  const fileInputRef = useRef(null)
+  const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
+  const [profileImage, setProfileImage] = useState(null)
+  const [previewImage, setPreviewImage] = useState(null)
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    bio: "",
+    location: "",
+    website: "",
+    twitter: "",
+    instagram: "",
+    github: "",
+    linkedin: "",
+  })
+
+  useEffect(() => {
+    // Get user data from localStorage (in a real app, you would fetch from API)
+    try {
+      const userData = JSON.parse(localStorage.getItem("user")) || {}
+
+      setFormData({
+        name: userData.name || "",
+        email: userData.email || "",
+        bio: userData.bio || "",
+        location: userData.location || "",
+        website: userData.website || "",
+        twitter: userData.twitter || "",
+        instagram: userData.instagram || "",
+        github: userData.github || "",
+        linkedin: userData.linkedin || "",
+      })
+
+      if (userData.profileImage) {
+        setProfileImage(userData.profileImage)
+        setPreviewImage(userData.profileImage)
+      }
+
+      setLoading(false)
+    } catch (error) {
+      console.error("Error loading user data:", error)
+      setLoading(false)
+    }
+  }, [])
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setProfileImage(file)
+        setPreviewImage(reader.result)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
+  const triggerFileInput = () => {
+    fileInputRef.current.click()
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setSaving(true)
+
+    try {
+      // In a real app, you would upload the image and send the form data to your API
+      // For this example, we'll just update localStorage
+
+      // Simulate API delay
+      await new Promise((resolve) => setTimeout(resolve, 1500))
+
+      // Get existing user data
+      const userData = JSON.parse(localStorage.getItem("user")) || {}
+
+      // Update with new data
+      const updatedUserData = {
+        ...userData,
+        ...formData,
+        profileImage: previewImage, // In a real app, this would be the URL returned from your image upload
+      }
+
+      // Save back to localStorage
+      localStorage.setItem("user", JSON.stringify(updatedUserData))
+
+      toast.success("Profile updated successfully!")
+      navigate("/profile")
+    } catch (error) {
+      console.error("Error saving profile:", error)
+      toast.error("Failed to update profile. Please try again.")
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="flex flex-col items-center">
+          <div className="w-16 h-16 border-4 border-black border-t-transparent rounded-full animate-spin mb-4"></div>
+          <div className="text-xl font-serif">Loading your profile...</div>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <div className="bg-black text-white py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-4xl font-serif font-bold"
+          >
+            Edit Profile
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="mt-2 text-gray-300"
+          >
+            Update your personal information and social profiles
+          </motion.p>
+        </div>
+      </div>
+
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <form onSubmit={handleSubmit}>
+          <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+            {/* Profile Image Section */}
+            <div className="relative h-48 bg-gradient-to-r from-gray-900 to-black">
+              <div className="absolute left-0 right-0 -bottom-16 flex justify-center">
+                <div className="relative">
+                  <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white bg-white">
+                    <img
+                      src={
+                        previewImage ||
+                        "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1760&q=80"
+                      }
+                      alt="Profile"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={triggerFileInput}
+                    className="absolute bottom-0 right-0 p-2 bg-black text-white rounded-full hover:bg-gray-800 transition-colors"
+                  >
+                    <Camera className="h-5 w-5" />
+                  </button>
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleImageChange}
+                    accept="image/*"
+                    className="hidden"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Form Fields */}
+            <div className="pt-20 px-8 pb-8">
+              <AnimatedSection className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Basic Information */}
+                <div className="md:col-span-2">
+                  <h2 className="text-xl font-serif font-bold text-gray-900 mb-4">Basic Information</h2>
+                </div>
+
+                <div className="space-y-4">
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                      Full Name
+                    </label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <User className="h-5 w-5 text-gray-400" />
+                      </div>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        className="pl-10 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-black focus:border-black"
+                        placeholder="Your full name"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                      Email Address
+                    </label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <Mail className="h-5 w-5 text-gray-400" />
+                      </div>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        className="pl-10 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-black focus:border-black"
+                        placeholder="your.email@example.com"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">
+                      Location
+                    </label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <MapPin className="h-5 w-5 text-gray-400" />
+                      </div>
+                      <input
+                        type="text"
+                        id="location"
+                        name="location"
+                        value={formData.location}
+                        onChange={handleChange}
+                        className="pl-10 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-black focus:border-black"
+                        placeholder="City, Country"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="website" className="block text-sm font-medium text-gray-700 mb-1">
+                      Website
+                    </label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <Globe className="h-5 w-5 text-gray-400" />
+                      </div>
+                      <input
+                        type="url"
+                        id="website"
+                        name="website"
+                        value={formData.website}
+                        onChange={handleChange}
+                        className="pl-10 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-black focus:border-black"
+                        placeholder="https://yourwebsite.com"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="bio" className="block text-sm font-medium text-gray-700 mb-1">
+                    Bio
+                  </label>
+                  <textarea
+                    id="bio"
+                    name="bio"
+                    rows={5}
+                    value={formData.bio}
+                    onChange={handleChange}
+                    className="block w-full rounded-lg border-gray-300 shadow-sm focus:ring-black focus:border-black"
+                    placeholder="Tell us about yourself..."
+                  />
+                  <p className="mt-1 text-sm text-gray-500">
+                    Brief description for your profile. URLs are hyperlinked.
+                  </p>
+                </div>
+
+                {/* Social Profiles */}
+                <div className="md:col-span-2 mt-8">
+                  <h2 className="text-xl font-serif font-bold text-gray-900 mb-4">Social Profiles</h2>
+                </div>
+
+                <div>
+                  <label htmlFor="twitter" className="block text-sm font-medium text-gray-700 mb-1">
+                    Twitter
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Twitter className="h-5 w-5 text-gray-400" />
+                    </div>
+                    <input
+                      type="text"
+                      id="twitter"
+                      name="twitter"
+                      value={formData.twitter}
+                      onChange={handleChange}
+                      className="pl-10 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-black focus:border-black"
+                      placeholder="@username"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="instagram" className="block text-sm font-medium text-gray-700 mb-1">
+                    Instagram
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Instagram className="h-5 w-5 text-gray-400" />
+                    </div>
+                    <input
+                      type="text"
+                      id="instagram"
+                      name="instagram"
+                      value={formData.instagram}
+                      onChange={handleChange}
+                      className="pl-10 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-black focus:border-black"
+                      placeholder="username"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="github" className="block text-sm font-medium text-gray-700 mb-1">
+                    GitHub
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <GitHub className="h-5 w-5 text-gray-400" />
+                    </div>
+                    <input
+                      type="text"
+                      id="github"
+                      name="github"
+                      value={formData.github}
+                      onChange={handleChange}
+                      className="pl-10 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-black focus:border-black"
+                      placeholder="username"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="linkedin" className="block text-sm font-medium text-gray-700 mb-1">
+                    LinkedIn
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Linkedin className="h-5 w-5 text-gray-400" />
+                    </div>
+                    <input
+                      type="text"
+                      id="linkedin"
+                      name="linkedin"
+                      value={formData.linkedin}
+                      onChange={handleChange}
+                      className="pl-10 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-black focus:border-black"
+                      placeholder="username"
+                    />
+                  </div>
+                </div>
+              </AnimatedSection>
+
+              {/* Form Actions */}
+              <motion.div
+                variants={fadeIn("up", 0.3)}
+                initial="hidden"
+                animate="show"
+                className="mt-12 flex justify-end space-x-4"
+              >
+                <button
+                  type="button"
+                  onClick={() => navigate("/profile")}
+                  className="inline-flex items-center px-5 py-2.5 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+                >
+                  <X className="h-5 w-5 mr-2" />
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={saving}
+                  className={`inline-flex items-center px-5 py-2.5 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black ${
+                    saving ? "opacity-70 cursor-not-allowed" : ""
+                  }`}
+                >
+                  {saving ? (
+                    <>
+                      <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                      Saving...
+                    </>
+                  ) : (
+                    <>
+                      <Save className="h-5 w-5 mr-2" />
+                      Save Changes
+                    </>
+                  )}
+                </button>
+              </motion.div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  )
+}
+
+export default EditProfilePage

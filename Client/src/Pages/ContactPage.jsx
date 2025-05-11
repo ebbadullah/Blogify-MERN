@@ -10,75 +10,77 @@ const ContactPage = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="bg-black text-white py-12"
+        className="bg-black text-white py-16 md:py-24"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.h1
             variants={textVariant(0.1)}
             initial="hidden"
             animate="show"
-            className="text-3xl font-extrabold tracking-tight sm:text-4xl"
+            className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold tracking-tight leading-tight"
           >
             Contact Us
           </motion.h1>
-          <motion.p variants={fadeIn("up", 0.2)} initial="hidden" animate="show" className="mt-4 text-lg text-gray-300">
+          <motion.p
+            variants={fadeIn("up", 0.2)}
+            initial="hidden"
+            animate="show"
+            className="mt-6 text-xl md:text-2xl text-gray-300 font-light max-w-3xl leading-relaxed"
+          >
             Have questions or feedback? We'd love to hear from you.
           </motion.p>
         </div>
       </motion.div>
 
-      <section className="py-12">
+      <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
             <AnimatedSection>
-              <h2 className="text-2xl font-bold text-black mb-6">Get in Touch</h2>
+              <h2 className="text-sm uppercase tracking-widest text-gray-500 font-medium mb-3">Get in Touch</h2>
+              <p className="text-3xl font-serif font-bold text-gray-900 mb-8 leading-tight">We're Here to Help</p>
               <motion.form
                 variants={staggerContainer(0.1, 0.2)}
                 initial="hidden"
                 whileInView="show"
                 viewport={{ once: true, amount: 0.25 }}
-                className="space-y-6"
+                className="space-y-8"
               >
                 {[
-                  { id: "name", label: "Full Name", type: "text", placeholder: "ebad ullah" },
+                  { id: "name", label: "Full Name", type: "text", placeholder: "Ebad Ullah" },
                   { id: "email", label: "Email", type: "email", placeholder: "ebad@devVertex.com" },
                   { id: "subject", label: "Subject", type: "text", placeholder: "How can we help you?" },
                 ].map((field, index) => (
                   <motion.div key={field.id} variants={fadeIn("up", 0.1 * index)}>
-                    <label htmlFor={field.id} className="block text-sm font-medium text-gray-700">
+                    <label htmlFor={field.id} className="block text-sm font-medium text-gray-700 mb-2">
                       {field.label}
                     </label>
-                    <div className="mt-1">
-                      <input
-                        type={field.type}
-                        name={field.id}
-                        id={field.id}
-                        className="py-3 px-4 block w-full shadow-sm focus:ring-black focus:border-black border-gray-300 rounded-md"
-                        placeholder={field.placeholder}
-                      />
-                    </div>
+                    <input
+                      type={field.type}
+                      name={field.id}
+                      id={field.id}
+                      className="py-3 px-4 block w-full shadow-sm focus:ring-black focus:border-black border-gray-200 rounded-md"
+                      placeholder={field.placeholder}
+                    />
                   </motion.div>
                 ))}
 
                 <motion.div variants={fadeIn("up", 0.3)}>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
                     Message
                   </label>
-                  <div className="mt-1">
-                    <textarea
-                      id="message"
-                      name="message"
-                      rows={4}
-                      className="py-3 px-4 block w-full shadow-sm focus:ring-black focus:border-black border-gray-300 rounded-md"
-                      placeholder="Your message here..."
-                    />
-                  </div>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows={5}
+                    className="py-3 px-4 block w-full shadow-sm focus:ring-black focus:border-black border-gray-200 rounded-md"
+                    placeholder="Your message here..."
+                  />
                 </motion.div>
 
                 <motion.div variants={fadeIn("up", 0.4)} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                   <button
                     type="submit"
-                    className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition-colors duration-300"
+                    className="w-full inline-flex items-center justify-center px-6 py-4 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition-colors duration-300"
                   >
                     Send Message
                   </button>
@@ -87,13 +89,14 @@ const ContactPage = () => {
             </AnimatedSection>
 
             <AnimatedSection delay={0.2}>
-              <h2 className="text-2xl font-bold text-black mb-6">Contact Information</h2>
+              <h2 className="text-sm uppercase tracking-widest text-gray-500 font-medium mb-3">Contact Information</h2>
+              <p className="text-3xl font-serif font-bold text-gray-900 mb-8 leading-tight">Reach Out to Us</p>
               <motion.div
                 whileHover={{ boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" }}
                 transition={{ duration: 0.3 }}
-                className="bg-gray-50 rounded-lg p-6 shadow-sm"
+                className="bg-gray-50 rounded-xl p-8 shadow-md"
               >
-                <div className="space-y-6">
+                <div className="space-y-8">
                   {[
                     {
                       title: "Address",
@@ -136,8 +139,8 @@ const ContactPage = () => {
                       whileInView={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.5, delay: 0.1 * index }}
                     >
-                      <h3 className="text-lg font-medium text-black">{item.title}</h3>
-                      <p className="mt-2 text-base text-gray-500">{item.content}</p>
+                      <h3 className="text-lg font-serif font-medium text-gray-900 mb-2">{item.title}</h3>
+                      <p className="text-lg text-gray-600 font-light">{item.content}</p>
                     </motion.div>
                   ))}
 
@@ -146,8 +149,8 @@ const ContactPage = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.4 }}
                   >
-                    <h3 className="text-lg font-medium text-black">Follow Us</h3>
-                    <div className="mt-2 flex space-x-4">
+                    <h3 className="text-lg font-serif font-medium text-gray-900 mb-3">Follow Us</h3>
+                    <div className="flex space-x-5">
                       {["Twitter", "Facebook", "Instagram", "GitHub"].map((social, index) => (
                         <motion.a
                           key={social}
@@ -190,16 +193,16 @@ const ContactPage = () => {
                 </div>
               </motion.div>
 
-              <AnimatedSection delay={0.3} className="mt-8">
-                <h2 className="text-2xl font-bold text-black mb-6">Our Location</h2>
+              <AnimatedSection delay={0.3} className="mt-12">
+                <h2 className="text-lg font-serif font-medium text-gray-900 mb-4">Our Location</h2>
                 <motion.div
                   whileHover={{ scale: 1.02 }}
                   transition={{ duration: 0.3 }}
-                  className="bg-gray-200 rounded-lg overflow-hidden h-64"
+                  className="bg-gray-200 rounded-xl overflow-hidden h-64 shadow-md"
                 >
                   {/* Replace with actual map or iframe if needed */}
                   <div className="w-full h-full flex items-center justify-center bg-gray-300">
-                    <span className="text-gray-600">Map placeholder</span>
+                    <span className="text-gray-600 font-light text-lg">Map placeholder</span>
                   </div>
                 </motion.div>
               </AnimatedSection>
@@ -208,20 +211,25 @@ const ContactPage = () => {
         </div>
       </section>
 
-      <section className="py-12 bg-gray-50">
+      <section className="py-16 md:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <AnimatedSection className="text-center">
-            <h2 className="text-3xl font-extrabold text-black">Frequently Asked Questions</h2>
-            <p className="mt-4 text-lg text-gray-500">Find answers to common questions about our platform.</p>
+          <AnimatedSection className="text-center mb-16">
+            <h2 className="text-sm uppercase tracking-widest text-gray-500 font-medium mb-3">FAQ</h2>
+            <p className="text-3xl md:text-4xl font-serif font-bold text-gray-900 leading-tight">
+              Frequently Asked Questions
+            </p>
+            <p className="mt-6 max-w-2xl mx-auto text-xl text-gray-600 font-light leading-relaxed">
+              Find answers to common questions about our platform.
+            </p>
           </AnimatedSection>
 
-          <AnimatedSection delay={0.2} className="mt-12 max-w-3xl mx-auto">
+          <AnimatedSection delay={0.2} className="max-w-3xl mx-auto">
             <motion.div
               variants={staggerContainer(0.1, 0.2)}
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, amount: 0.25 }}
-              className="space-y-8"
+              className="space-y-10"
             >
               {[
                 {
@@ -250,9 +258,10 @@ const ContactPage = () => {
                   variants={fadeIn("up", 0.1 * index)}
                   whileHover={{ scale: 1.01 }}
                   transition={{ duration: 0.2 }}
+                  className="bg-white p-8 rounded-xl shadow-md"
                 >
-                  <h3 className="text-lg font-medium text-black">{faq.question}</h3>
-                  <p className="mt-2 text-base text-gray-500">{faq.answer}</p>
+                  <h3 className="text-xl font-serif font-medium text-gray-900 mb-3">{faq.question}</h3>
+                  <p className="text-gray-600 font-light leading-relaxed">{faq.answer}</p>
                 </motion.div>
               ))}
             </motion.div>
