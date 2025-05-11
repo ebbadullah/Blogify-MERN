@@ -1,4 +1,3 @@
-// models/Blog.js
 
 import mongoose from "mongoose"
 
@@ -19,12 +18,12 @@ const blogSchema = new mongoose.Schema(
       required: true,
     },
     imageUrl: {
-      type: String, // Store image URL/path
+      type: String, 
       required: true,
     },
   },
   {
-    timestamps: true, // Automatically adds createdAt and updatedAt fields
+    timestamps: true,
   }
 )
 

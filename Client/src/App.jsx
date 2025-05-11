@@ -13,7 +13,6 @@ function App() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Check if user is authenticated
     const checkAuth = () => {
       const token = localStorage.getItem("token")
       setIsAuthenticated(!!token)
@@ -22,10 +21,8 @@ function App() {
 
     checkAuth()
 
-    // Listen for storage events (for when token is added/removed in another tab)
     window.addEventListener("storage", checkAuth)
 
-    // Custom event for auth changes within the same tab
     window.addEventListener("authChange", checkAuth)
 
     return () => {
@@ -34,7 +31,6 @@ function App() {
     }
   }, [])
 
-  // Show loader while checking authentication
   if (loading) {
     return <Loader />
   }
@@ -62,10 +58,8 @@ function App() {
         }}
       />
       {isAuthenticated ? (
-        // Show full app with all routes when authenticated
         <AppRoutes isAuthenticated={true} />
       ) : (
-        // Show welcome page with auth options when not authenticated
         <AppRoutes isAuthenticated={false} />
       )}
     </Router>

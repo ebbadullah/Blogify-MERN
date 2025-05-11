@@ -1,11 +1,9 @@
 import Blog from "../Models/blog_schemas.js";
 
-// Create blog controller
 export const createBlog = async (req, res) => {
   const { title, author, description } = req.body;
   
   try {
-    // Validate input
     if (!title || !author || !description) {
       return res.status(400).json({ error: "Title, author, and description are required" });
     }
@@ -14,7 +12,6 @@ export const createBlog = async (req, res) => {
       return res.status(400).json({ error: "Image is required" });
     }
 
-    // Create new blog
     const newBlog = await Blog.create({
       title,
       author,
