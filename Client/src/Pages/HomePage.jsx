@@ -1,4 +1,3 @@
-"use client"
 
 import { useEffect } from "react"
 import { Link } from "react-router-dom"
@@ -12,15 +11,12 @@ import FullCountUp from "../Components/UI/FullCountUp"
 
 const HomePage = () => {
   useEffect(() => {
-    // Check if we should show the welcome toast (only after login/signup)
     const shouldShowWelcomeToast = localStorage.getItem("showWelcomeToast")
 
     if (shouldShowWelcomeToast) {
-      // Get user data from JWT token
       const userData = JSON.parse(localStorage.getItem("user") || "{}")
       const userName = userData.name || "User"
 
-      // Show welcome toast
       toast.success(
         <div className="flex flex-col">
           <span className="font-bold">Welcome, {userName}!</span>
@@ -32,16 +28,13 @@ const HomePage = () => {
         },
       )
 
-      // Remove the flag so toast doesn't show again on page refresh
       localStorage.removeItem("showWelcomeToast")
     }
   }, [])
 
   return (
     <div className="bg-white">
-      {/* Hero Section - Modern with gradient and pattern */}
       <section className="relative overflow-hidden">
-        {/* Background pattern */}
         <div className="absolute inset-0 bg-black">
           <motion.div
             initial={{ opacity: 0 }}

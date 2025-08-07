@@ -1,4 +1,3 @@
-"use client"
 
 import { Link } from "react-router-dom"
 import { ArrowRight, Users, BookOpen, TrendingUp, MessageSquare } from "lucide-react"
@@ -9,7 +8,6 @@ import FullCountUp from "../Components/UI/FullCountUp"
 import TestimonialSlider from "../Components/UI/TestimonialSlider"
 
 const WelcomePage = () => {
-  // Testimonials data
   const testimonials = [
     {
       image:

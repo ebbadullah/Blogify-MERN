@@ -1,4 +1,3 @@
-"use client"
 
 import { useState, useEffect } from "react"
 import { useSearchParams, useNavigate } from "react-router-dom"
@@ -177,13 +176,19 @@ const AuthForm = () => {
               <input
                 id="confirmPassword"
                 name="confirmPassword"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 required
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 className="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-black focus:border-black transition-all duration-300 sm:text-sm"
                 placeholder="••••••••"
               />
+              <span
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute inset-y-0 right-0 flex items-center  text-gray-500 cursor-pointer"
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </span>
             </div>
           </div>
         )}

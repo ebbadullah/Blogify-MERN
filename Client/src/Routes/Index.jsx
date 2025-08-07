@@ -12,17 +12,14 @@ import WelcomePage from "../Pages/WelcomePage"
 const AppRoutes = ({ isAuthenticated = true }) => {
   return (
     <Routes>
-      {/* Auth route - accessible even when not logged in */}
       <Route path="/auth" element={<LoginPage />} />
 
       {!isAuthenticated ? (
-        // Routes for non-authenticated users
         <>
           <Route path="/" element={<WelcomePage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </>
       ) : (
-        // Routes for authenticated users
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="blogs" element={<BlogPage />} />
