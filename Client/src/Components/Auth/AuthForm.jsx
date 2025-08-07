@@ -56,7 +56,7 @@ const AuthForm = () => {
         ? { email: formData.email, password: formData.password }
         : { name: formData.name, email: formData.email, password: formData.password }
 
-      const response = await fetch(`http://localhost:3000${endpoint}`, {
+      const response = await fetch(`http://localhost:5000${endpoint}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
