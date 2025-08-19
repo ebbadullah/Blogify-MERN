@@ -1,32 +1,25 @@
 "use client"
 
 import { Outlet, useLocation } from "react-router-dom"
-import { useEffect, useState } from "react"
-
+import { useSelector } from "react-redux"
 import Footer from "../Footer"
 import AuthGate from "../Auth/AuthGate"
 import Navbar from "../Navbar/Index"
 
 const Layout = () => {
   const location = useLocation()
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const user = useSelector((state) => state.auth.user)
 
-  // Check if user is authenticated
-  useEffect(() => {
-    const token = localStorage.getItem("token")
-    setIsAuthenticated(!!token)
-  }, [location])
+  const isAuthPage =
+    location.pathname === "/auth" || location.pathname.startsWith("/auth?mode=")
 
-  // Special case: if we're on the auth page, we don't need to check authentication
-  const isAuthPage = location.pathname === "/auth" || location.pathname.includes("/auth?mode=")
+  // Public pages allowed without login
+  const publicPages = ["/", "/blogs", "/about", "/contact"]
 
-  // If not authenticated and not on auth page, show AuthGate
-  if (!isAuthenticated && !isAuthPage) {
-    // Don't show AuthGate for public pages
-    const publicPages = ["/", "/blogs", "/about", "/contact"]
-    if (!publicPages.includes(location.pathname)) {
-      return <AuthGate />
-    }
+  const isPublicPage = publicPages.includes(location.pathname)
+
+  if (!user && !isAuthPage && !isPublicPage) {
+    return <AuthGate />
   }
 
   return (

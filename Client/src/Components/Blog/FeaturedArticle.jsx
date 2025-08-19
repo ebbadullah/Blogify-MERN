@@ -4,6 +4,17 @@ import { motion } from "framer-motion"
 import { Calendar, Clock, ArrowRight } from "lucide-react"
 import { Link } from "react-router-dom"
 
+const getImageUrl = (post) => {
+  if (post.imageUrl) {
+    return post.imageUrl.startsWith("/")
+      ? `http://localhost:5000${post.imageUrl}`
+      : post.imageUrl
+  }
+  if (post.image) return post.image
+  return "/placeholder.svg"
+}
+
+
 const FeaturedArticle = ({ post }) => {
   return (
     <motion.article
@@ -19,9 +30,10 @@ const FeaturedArticle = ({ post }) => {
           whileHover={{ scale: 1.03 }}
           transition={{ duration: 0.7 }}
           className="w-full h-full object-cover"
-          src={post.image}
+          src={getImageUrl(post)}
           alt={post.title}
         />
+
 
         {/* Featured badge */}
         <div className="absolute top-4 left-4 px-3 py-1.5 bg-black text-white text-xs font-medium uppercase tracking-wider">

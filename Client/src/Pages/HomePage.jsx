@@ -197,11 +197,9 @@ const HomePage = () => {
       {/* Blog Section */}
       <BlogSection />
 
-      {/* Newsletter Section */}
-      <section className="py-24 bg-black text-white">
+      {/* <section className="py-24 bg-black text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-gray-900 to-black p-12 border border-white/10">
-            {/* Background pattern */}
             <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff33_1px,transparent_1px)] [background-size:16px_16px]"></div>
 
             <div className="relative max-w-xl mx-auto text-center">
@@ -261,7 +259,7 @@ const HomePage = () => {
             </div>
           </AnimatedSection>
         </div>
-      </section>
+      </section> */}
 
       {/* CTA Section */}
       <section className="py-16 bg-white">

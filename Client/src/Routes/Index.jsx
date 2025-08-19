@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom"
+import { useSelector } from "react-redux"
 import HomePage from "../pages/HomePage"
 import LoginPage from "../pages/LoginPage"
 import BlogPage from "../pages/BlogPage"
@@ -8,30 +9,35 @@ import ProfilePage from "../components/Profile/ProfilePage"
 import CreateBlogForm from "../components/Blog/CreateBlogForm"
 import Layout from "../components/Layout"
 import WelcomePage from "../Pages/WelcomePage"
+import BlogDetails from "../Components/Blog/BlogDetails"
 
-const AppRoutes = ({ isAuthenticated = true }) => {
-  return (
-    <Routes>
-      <Route path="/auth" element={<LoginPage />} />
+const AppRoutes = () => {
+    const isAuthenticated = useSelector((state) => state.auth.user !== null)
 
-      {!isAuthenticated ? (
-        <>
-          <Route path="/" element={<WelcomePage />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </>
-      ) : (
-        <Route path="/" element={<Layout />}>
-          <Route index element={<HomePage />} />
-          <Route path="blogs" element={<BlogPage />} />
-          <Route path="about" element={<AboutPage />} />
-          <Route path="contact" element={<ContactPage />} />
-          <Route path="profile" element={<ProfilePage />} />
-          <Route path="create-blog" element={<CreateBlogForm />} />
-          <Route path="edit-blog/:id" element={<CreateBlogForm />} />
-        </Route>
-      )}
-    </Routes>
-  )
+    return (
+        <Routes>
+            <Route path="/auth" element={<LoginPage />} />
+
+            {!isAuthenticated ? (
+                <>
+                    <Route path="/" element={<WelcomePage />} />
+                    <Route path="*" element={<Navigate to="/" replace />} />
+                </>
+            ) : (
+                <Route path="/" element={<Layout />}>
+                    <Route index element={<HomePage />} />
+                    <Route path="blogs" element={<BlogPage />} />
+                    <Route path="about" element={<AboutPage />} />
+                    <Route path="contact" element={<ContactPage />} />
+                    <Route path="profile" element={<ProfilePage />} />
+                    <Route path="blog/:id" element={<BlogDetails />} />
+
+                    <Route path="create-blog" element={<CreateBlogForm />} />
+                    <Route path="edit-blog/:id" element={<CreateBlogForm />} />
+                </Route>
+            )}
+        </Routes>
+    )
 }
 
 export default AppRoutes

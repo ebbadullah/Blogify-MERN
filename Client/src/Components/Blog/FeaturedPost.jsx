@@ -30,7 +30,7 @@ const FeaturedPost = ({ post }) => {
           Featured Post
         </div>
 
-        <Link to={`/blog/${post.id}`}>
+        <Link to={`/blog/${post._id}`}>
           <h4 className="text-xl md:text-2xl font-bold mb-3 text-white hover:text-gray-200 transition-colors duration-300">
             {post.title}
           </h4>
@@ -51,17 +51,17 @@ const FeaturedPost = ({ post }) => {
           <div className="flex items-center">
             <img
               className="h-10 w-10 rounded-full object-cover border-2 border-white"
-              src={post.author.avatar || "/placeholder.svg"}
-              alt={post.author.name}
+              src={post.author?.avatar || "/placeholder.svg"}
+              alt={post.author?.name}
             />
             <div className="ml-3">
-              <p className="text-sm font-medium text-white">{post.author.name}</p>
+              <p className="text-sm font-medium text-white">{post.author?.name}</p>
             </div>
           </div>
 
           <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
             <Link
-              to={`/blog/${post.id}`}
+              to={`/blog/${post._id}`}
               className="inline-flex items-center text-white hover:text-gray-200 transition-colors duration-300"
             >
               Read more

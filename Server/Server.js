@@ -14,10 +14,12 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// CORS config for local dev (React Vite on 5173)
 app.use(cors({
   origin: "http://localhost:5173",
   credentials: true
 }));
+
 app.use(express.json());
 app.use(cookieParser()); 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));

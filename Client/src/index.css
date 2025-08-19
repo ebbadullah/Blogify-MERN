@@ -5,9 +5,11 @@
   0% {
     width: 0%;
   }
+
   50% {
     width: 70%;
   }
+
   100% {
     width: 100%;
   }
@@ -35,8 +37,10 @@ html {
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .scrollbar-hide {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 .animate-loadingBar {
@@ -61,6 +65,7 @@ textarea:focus {
   0% {
     background-position: -468px 0;
   }
+
   100% {
     background-position: 468px 0;
   }

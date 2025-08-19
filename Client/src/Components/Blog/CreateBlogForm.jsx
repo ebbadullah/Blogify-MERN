@@ -1,127 +1,158 @@
-// CreateBlogForm.jsx
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { ImageIcon, X, FileText, User, ArrowLeft } from "lucide-react"
-import toast from "react-hot-toast"
-import axios from "axios"
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ImageIcon, X, FileText, User, ArrowLeft } from "lucide-react";
+import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { createBlog } from "../../redux/blog/blogSlice";
 
 const CreateBlogForm = () => {
-  const navigate = useNavigate()
-  const [loading, setLoading] = useState(false)
-  const [previewImage, setPreviewImage] = useState(null)
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { loading: blogLoading } = useSelector((state) => state.blog);
+  const [previewImage, setPreviewImage] = useState(null);
 
   const [formData, setFormData] = useState({
     title: "",
     author: "",
     description: "",
+    category: "",
     image: null,
-  })
+  });
 
   const handleChange = (e) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
-    }))
-  }
+      [name]: value, 
+    }));
+  };
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0]
-    if (file && file.size <= 10 * 1024 * 1024) {
-      setFormData((prev) => ({ ...prev, image: file }))
-      const reader = new FileReader()
-      reader.onloadend = () => setPreviewImage(reader.result)
-      reader.readAsDataURL(file)
-    } else {
-      toast.error("Image must be less than 10MB")
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 10 * 1024 * 1024) {
+        toast.error("Image must be less than 10MB");
+        return;
+      }
+      if (!file.type.match("image.*")) {
+        toast.error("Please select an image file");
+        return;
+      }
+      setFormData((prev) => ({ ...prev, image: file }));
+      const reader = new FileReader();
+      reader.onloadend = () => setPreviewImage(reader.result);
+      reader.readAsDataURL(file);
     }
-  }
+  };
 
   const removeImage = () => {
-    setFormData((prev) => ({ ...prev, image: null }))
-    setPreviewImage(null)
-  }
+    setFormData((prev) => ({ ...prev, image: null }));
+    setPreviewImage(null);
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+
+    // Validation
+    if (!formData.title.trim()) {
+      toast.error("Title is required");
+      return;
+    }
+    if (!formData.author.trim()) {
+      toast.error("Author name is required");
+      return;
+    }
+    if (!formData.category.trim()) {
+      toast.error("Category is required");
+      return;
+    }
+    if (!formData.description.trim()) {
+      toast.error("Description is required");
+      return;
+    }
+    if (!formData.image) {
+      toast.error("Featured image is required");
+      return;
+    }
+
+    const formDataToSend = new FormData();
+    formDataToSend.append("title", formData.title.trim());
+    formDataToSend.append("author", formData.author.trim());
+    formDataToSend.append("description", formData.description.trim());
+    formDataToSend.append("category", formData.category.trim());
+    formDataToSend.append("image", formData.image);
 
     try {
-      const formDataToSend = new FormData()
-      formDataToSend.append('title', formData.title)
-      formDataToSend.append('author', formData.author)
-      formDataToSend.append('description', formData.description)
-      if (formData.image) {
-        formDataToSend.append('image', formData.image)
-      }
-
-      const response = await axios.post('http://localhost:5000/api/blogs', formDataToSend, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
-
-      console.log("Server response:", response.data)
-      toast.success("Blog saved successfully!")
-      navigate("/profile")
-      
-    } catch (error) {
-      console.error("Error:", error)
-      if (error.response) {
-        // Server responded with error status
-        toast.error(error.response.data.error || "Failed to save blog")
-      } else if (error.request) {
-        // Request was made but no response
-        toast.error("No response from server")
+      const resultAction = await dispatch(createBlog(formDataToSend));
+      if (createBlog.fulfilled.match(resultAction)) {
+        toast.success("Blog published successfully!");
+        navigate("/blogs");
       } else {
-        // Other errors
-        toast.error("Error: " + error.message)
+        throw new Error(resultAction.payload || "Failed to publish blog");
       }
-    } finally {
-      setLoading(false)
+    } catch (error) {
+      toast.error(error.message);
     }
-  }
+  };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-4xl mx-auto px-4">
-        <div className="mb-8 flex items-center">
+    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-3xl mx-auto">
+        <div className="flex items-center mb-8">
           <button
-            onClick={() => navigate("/profile")}
-            className="mr-4 p-2 rounded-full hover:bg-gray-200"
+            onClick={() => navigate(-1)}
+            className="mr-4 p-2 rounded-full hover:bg-gray-200 transition-colors"
             aria-label="Go back"
           >
             <ArrowLeft className="h-5 w-5 text-gray-700" />
           </button>
-          <h1 className="text-3xl font-bold text-black">Create New Blog Post</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Create New Blog Post</h1>
         </div>
 
-        <div className="bg-white rounded-xl shadow-md overflow-hidden">
-          <div className="relative w-full bg-gray-100">
+        <div className="bg-white shadow-xl rounded-lg overflow-hidden">
+          {/* Featured Image Upload */}
+          <div className="relative bg-gray-100 h-64 w-full">
             {previewImage ? (
-              <div className="relative">
-                <img src={previewImage} alt="Featured" className="w-full h-64 object-cover" />
+              <div className="relative h-full w-full">
+                <img
+                  src={previewImage}
+                  alt="Featured preview"
+                  className="h-full w-full object-cover"
+                />
                 <button
                   onClick={removeImage}
-                  className="absolute top-4 right-4 bg-black bg-opacity-70 rounded-full p-2 text-white"
+                  className="absolute top-4 right-4 bg-black/50 hover:bg-black/70 rounded-full p-2 text-white transition-colors"
                 >
                   <X className="h-5 w-5" />
                 </button>
               </div>
             ) : (
-              <label className="flex flex-col items-center justify-center h-64 w-full cursor-pointer hover:bg-gray-200">
-                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+              <label className="flex flex-col items-center justify-center h-full w-full cursor-pointer hover:bg-gray-200 transition-colors">
+                <div className="flex flex-col items-center justify-center text-center p-6">
                   <ImageIcon className="mx-auto h-12 w-12 text-gray-400 mb-3" />
-                  <p className="mb-2 text-sm text-gray-500"><span className="font-semibold">Click to upload</span> or drag and drop</p>
-                  <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                  <p className="mb-2 text-sm text-gray-500">
+                    <span className="font-semibold">Click to upload</span> or drag and drop
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    PNG, JPG, GIF up to 10MB
+                  </p>
                 </div>
-                <input type="file" name="image" accept="image/*" onChange={handleImageChange} className="hidden" />
+                <input
+                  type="file"
+                  name="image"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="hidden"
+                  required
+                />
               </label>
             )}
           </div>
 
-          <div className="p-8">
-            <form onSubmit={handleSubmit} className="space-y-8">
+          <div className="p-6 sm:p-8">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Title */}
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <FileText className="h-5 w-5 text-gray-400" />
@@ -131,12 +162,13 @@ const CreateBlogForm = () => {
                   name="title"
                   value={formData.title}
                   onChange={handleChange}
+                  className="pl-10 block w-full border-b-2 border-gray-300 focus:border-indigo-500 py-3 text-lg font-medium placeholder-gray-400 focus:outline-none"
+                  placeholder="Blog title"
                   required
-                  className="pl-10 block w-full border-b-2 border-gray-300 focus:border-black py-3 text-lg font-medium"
-                  placeholder="Enter blog title"
                 />
               </div>
 
+              {/* Author */}
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <User className="h-5 w-5 text-gray-400" />
@@ -146,41 +178,60 @@ const CreateBlogForm = () => {
                   name="author"
                   value={formData.author}
                   onChange={handleChange}
+                  className="pl-10 block w-full border-b-2 border-gray-300 focus:border-indigo-500 py-3 text-base placeholder-gray-400 focus:outline-none"
+                  placeholder="Your name"
                   required
-                  className="pl-10 block w-full border-b-2 border-gray-300 focus:border-black py-3 text-base"
-                  placeholder="Author name"
                 />
               </div>
 
+              {/* Category */}
               <div>
-                <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
-                  Description
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Category
+                </label>
+                <input
+                  type="text"
+                  name="category"
+                  value={formData.category}
+                  onChange={handleChange}
+                  className="block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  placeholder="Technology, Travel, Food, etc."
+                  required
+                />
+              </div>
+
+              {/* Description */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Blog Content
                 </label>
                 <textarea
-                  id="description"
                   name="description"
-                  rows={3}
+                  rows={6}
                   value={formData.description}
                   onChange={handleChange}
+                  className="block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  placeholder="Write your blog content here..."
                   required
-                  className="w-full border border-gray-300 rounded-md py-2 px-3 focus:ring-black resize-none"
-                  placeholder="Brief description..."
                 />
               </div>
 
+              {/* Submit Button */}
               <button
                 type="submit"
-                disabled={loading}
-                className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition"
+                disabled={blogLoading}
+                className={`w-full bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${
+                  blogLoading ? "opacity-70 cursor-not-allowed" : ""
+                }`}
               >
-                {loading ? "Publishing..." : "Publish Blog"}
+                {blogLoading ? "Publishing..." : "Publish Blog"}
               </button>
             </form>
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CreateBlogForm
+export default CreateBlogForm;

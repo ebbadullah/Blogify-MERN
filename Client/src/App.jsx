@@ -1,69 +1,32 @@
-"use client"
-
-import { BrowserRouter as Router } from "react-router-dom"
-import { useState, useEffect } from "react"
-import { Toaster } from "react-hot-toast"
-import AppRoutes from "./Routes/Index"
-
-import "./index.css"
-import Loader from "./Components/UI/Loader"
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { BrowserRouter as Router } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+import AppRoutes from "./Routes/Index";
+import { fetchUserData } from "./redux/auth/authSlice";
+import "./index.css";
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [loading, setLoading] = useState(true)
+    const dispatch = useDispatch();
 
-  useEffect(() => {
-    const checkAuth = () => {
-      const token = localStorage.getItem("token")
-      setIsAuthenticated(!!token)
-      setLoading(false)
-    }
+    useEffect(() => {
+        dispatch(fetchUserData());
+    }, [dispatch]);
 
-    checkAuth()
-
-    window.addEventListener("storage", checkAuth)
-
-    window.addEventListener("authChange", checkAuth)
-
-    return () => {
-      window.removeEventListener("storage", checkAuth)
-      window.removeEventListener("authChange", checkAuth)
-    }
-  }, [])
-
-  if (loading) {
-    return <Loader />
-  }
-
-  return (
-    <Router>
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          duration: 4000,
-          style: {
-            background: "#333",
-            color: "#fff",
-          },
-          success: {
-            style: {
-              background: "#22c55e",
-            },
-          },
-          error: {
-            style: {
-              background: "#ef4444",
-            },
-          },
-        }}
-      />
-      {isAuthenticated ? (
-        <AppRoutes isAuthenticated={true} />
-      ) : (
-        <AppRoutes isAuthenticated={false} />
-      )}
-    </Router>
-  )
+    return (
+        <Router>
+            <Toaster
+                position="top-right"
+                toastOptions={{
+                    duration: 4000,
+                    style: { background: "#333", color: "#fff" },
+                    success: { style: { background: "#22c55e" } },
+                    error: { style: { background: "#ef4444" } },
+                }} 
+            />
+            <AppRoutes />
+        </Router>
+    );
 }
 
-export default App
+export default App;

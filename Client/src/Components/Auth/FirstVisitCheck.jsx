@@ -1,29 +1,25 @@
-
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import { useSelector } from "react-redux"
 import AuthGate from "./AuthGate"
 
 const FirstVisitCheck = () => {
-  const [loading, setLoading] = useState(true)
-  const [showAuthGate, setShowAuthGate] = useState(false)
   const navigate = useNavigate()
+  const user = useSelector((state) => state.auth.user)
+
+  const [showAuthGate, setShowAuthGate] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [hasVisited, setHasVisited] = useState(false)
 
   useEffect(() => {
-    // Check if this is the first visit
-    const hasVisitedBefore = localStorage.getItem("hasVisitedBefore")
-    const isAuthenticated = !!localStorage.getItem("token")
-
-    if (!hasVisitedBefore && !isAuthenticated) {
-      // First visit and not authenticated, show AuthGate
+    if (user) {
+      navigate("/")
+    } else if (!hasVisited) {
       setShowAuthGate(true)
-    } else {
-      // Not first visit or already authenticated, mark as visited
-      localStorage.setItem("hasVisitedBefore", "true")
-      setShowAuthGate(false)
     }
-
+    setHasVisited(true)
     setLoading(false)
-  }, [navigate])
+  }, [user, hasVisited, navigate])
 
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center">Loading...</div>
@@ -33,16 +29,13 @@ const FirstVisitCheck = () => {
     return (
       <AuthGate
         onContinue={() => {
-          // Mark as visited when they click through
-          localStorage.setItem("hasVisitedBefore", "true")
+          setShowAuthGate(false)
           navigate("/")
-          window.location.reload() // Force reload to update the UI
         }}
       />
     )
   }
 
-  // If not showing AuthGate, return null so the normal app renders
   return null
 }
 
