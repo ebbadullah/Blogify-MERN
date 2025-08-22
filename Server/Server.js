@@ -25,6 +25,11 @@ app.use(cookieParser());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use("/api", router);
 
+app.get("/", (req, res) => {
+  res.send("🚀 Blog API is running successfully!");
+});
+
+
 const PORT = process.env.PORT || 3000;
 
 connectDB().then(() => {
