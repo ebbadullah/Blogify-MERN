@@ -16,3 +16,11 @@ export const getUserData = async () => {
     const res = await axios.get(`${BASE_URL}/api/user`, { withCredentials: true })
     return res.data
 }
+
+export const updateUserProfile = async (formData) => {
+    const res = await axios.put(`${BASE_URL}/api/user`, formData, {
+        withCredentials: true,
+        headers: { "Content-Type": "multipart/form-data" }
+    })
+    return res.data
+}

@@ -46,6 +46,23 @@ const blogSchema = new mongoose.Schema(
   }
 );
 
+// Add likedBy and comments after initial schema definition to avoid large diff near the top
+blogSchema.add({
+  likedBy: [
+    {
+      userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+      likedAt: { type: Date, default: Date.now },
+    },
+  ],
+  comments: [
+    {
+      userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+      text: { type: String, required: true, trim: true },
+      createdAt: { type: Date, default: Date.now },
+    },
+  ],
+});
+
 const Blog = mongoose.model("Blog", blogSchema);
 
 export default Blog;

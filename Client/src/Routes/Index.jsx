@@ -6,6 +6,7 @@ import BlogPage from "../pages/BlogPage"
 import AboutPage from "../pages/AboutPage"
 import ContactPage from "../pages/ContactPage"
 import ProfilePage from "../components/Profile/ProfilePage"
+import EditProfilePage from "../components/Profile/EditProfilePage"
 import CreateBlogForm from "../components/Blog/CreateBlogForm"
 import Layout from "../components/Layout"
 import WelcomePage from "../Pages/WelcomePage"
@@ -30,6 +31,7 @@ const AppRoutes = () => {
                     <Route path="about" element={<AboutPage />} />
                     <Route path="contact" element={<ContactPage />} />
                     <Route path="profile" element={<ProfilePage />} />
+                    <Route path="edit-profile" element={<EditProfilePage />} />
                     <Route path="blog/:id" element={<BlogDetails />} />
 
                     <Route path="create-blog" element={<CreateBlogForm />} />

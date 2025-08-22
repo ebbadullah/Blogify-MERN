@@ -1,5 +1,6 @@
 import User from "../Models/user_schemas.js";
 import Blog from "../Models/blog_schemas.js";
+import upload from "../Config/multer.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -125,3 +126,35 @@ const getUser = async (req, res) => {
 };
 
 export { signup, signin, getUser };
+
+// Update user profile
+export const updateProfile = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const { name, email, bio, location, website, twitter, instagram, github, linkedin } = req.body;
+
+        const update = {
+            ...(name !== undefined ? { name } : {}),
+            ...(email !== undefined ? { email } : {}),
+            ...(bio !== undefined ? { bio } : {}),
+            ...(location !== undefined ? { location } : {}),
+            ...(website !== undefined ? { website } : {}),
+            ...(twitter !== undefined ? { twitter } : {}),
+            ...(instagram !== undefined ? { instagram } : {}),
+            ...(github !== undefined ? { github } : {}),
+            ...(linkedin !== undefined ? { linkedin } : {}),
+        };
+
+        if (req.file) {
+            update.avatar = `/uploads/${req.file.filename}`;
+        }
+
+        const user = await User.findByIdAndUpdate(userId, update, { new: true }).select("-password");
+        if (!user) return res.status(404).json({ error: "User not found" });
+
+        res.json({ message: "Profile updated", user });
+    } catch (err) {
+        console.error("Update profile error:", err);
+        res.status(500).json({ error: "Server error while updating profile" });
+    }
+};

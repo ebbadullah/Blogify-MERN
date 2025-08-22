@@ -18,7 +18,14 @@ const userSchema = new mongoose.Schema(
     avatar: {
       type: String,
       default: "/default-avatar.png" // Add default avatar path
-    }
+    },
+    bio: { type: String, default: "" },
+    location: { type: String, default: "" },
+    website: { type: String, default: "" },
+    twitter: { type: String, default: "" },
+    instagram: { type: String, default: "" },
+    github: { type: String, default: "" },
+    linkedin: { type: String, default: "" }
   },
   { timestamps: true }
 );

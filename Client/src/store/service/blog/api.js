@@ -39,3 +39,34 @@ export const getAllCategories = async () => {
   const res = await axios.get(`${BASE_URL}/api/categories`, { withCredentials: true });
   return res.data; // should return ["Tech", "Lifestyle", ...]
 };
+
+// 🔹 Blog actions
+export const likeBlogById = async (id) => {
+  const res = await axios.post(`${BASE_URL}/api/blogs/${id}/like`, {}, { withCredentials: true });
+  return res.data; // { message, liked, blog }
+};
+
+export const readBlogById = async (id) => {
+  const res = await axios.post(`${BASE_URL}/api/blogs/${id}/read`, {}, { withCredentials: true });
+  return res.data; // blog
+};
+
+// 🔹 Comments APIs
+export const getBlogComments = async (id) => {
+  const res = await axios.get(`${BASE_URL}/api/blogs/${id}/comments`, { withCredentials: true });
+  return res.data; // comments array
+};
+
+export const addBlogComment = async (id, text) => {
+  const res = await axios.post(
+    `${BASE_URL}/api/blogs/${id}/comments`,
+    { text },
+    { withCredentials: true }
+  );
+  return res.data; // { message, comments }
+};
+
+export const deleteBlogComment = async (id, commentId) => {
+  const res = await axios.delete(`${BASE_URL}/api/blogs/${id}/comments/${commentId}`, { withCredentials: true });
+  return res.data; // { message, comments }
+};

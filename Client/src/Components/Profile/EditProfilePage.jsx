@@ -17,11 +17,15 @@ import {
   Linkedin,
 } from "lucide-react"
 import toast from "react-hot-toast"
-import AnimatedSection from "../Components/UI/AnimatedSection"
-import { fadeIn } from "../Utils/motion"
+import AnimatedSection from "../UI/AnimatedSection"
+import { fadeIn } from "../../Utils/motion"
+import { useDispatch, useSelector } from "react-redux"
+import { saveProfile } from "../../redux/auth/authSlice"
 
 const EditProfilePage = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { user } = useSelector((s) => s.auth)
   const fileInputRef = useRef(null)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -40,33 +44,24 @@ const EditProfilePage = () => {
   })
 
   useEffect(() => {
-    // Get user data from localStorage (in a real app, you would fetch from API)
-    try {
-      const userData = JSON.parse(localStorage.getItem("user")) || {}
-
+    if (user) {
       setFormData({
-        name: userData.name || "",
-        email: userData.email || "",
-        bio: userData.bio || "",
-        location: userData.location || "",
-        website: userData.website || "",
-        twitter: userData.twitter || "",
-        instagram: userData.instagram || "",
-        github: userData.github || "",
-        linkedin: userData.linkedin || "",
+        name: user.name || "",
+        email: user.email || "",
+        bio: user.bio || "",
+        location: user.location || "",
+        website: user.website || "",
+        twitter: user.twitter || "",
+        instagram: user.instagram || "",
+        github: user.github || "",
+        linkedin: user.linkedin || "",
       })
-
-      if (userData.profileImage) {
-        setProfileImage(userData.profileImage)
-        setPreviewImage(userData.profileImage)
+      if (user.avatar) {
+        setPreviewImage(user.avatar)
       }
-
-      setLoading(false)
-    } catch (error) {
-      console.error("Error loading user data:", error)
-      setLoading(false)
     }
-  }, [])
+    setLoading(false)
+  }, [user])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -94,25 +89,10 @@ const EditProfilePage = () => {
     setSaving(true)
 
     try {
-      // In a real app, you would upload the image and send the form data to your API
-      // For this example, we'll just update localStorage
-
-      // Simulate API delay
-      await new Promise((resolve) => setTimeout(resolve, 1500))
-
-      // Get existing user data
-      const userData = JSON.parse(localStorage.getItem("user")) || {}
-
-      // Update with new data
-      const updatedUserData = {
-        ...userData,
-        ...formData,
-        profileImage: previewImage, // In a real app, this would be the URL returned from your image upload
-      }
-
-      // Save back to localStorage
-      localStorage.setItem("user", JSON.stringify(updatedUserData))
-
+      const fd = new FormData()
+      Object.entries(formData).forEach(([k, v]) => fd.append(k, v || ""))
+      if (profileImage instanceof File) fd.append("avatar", profileImage)
+      await dispatch(saveProfile(fd)).unwrap()
       toast.success("Profile updated successfully!")
       navigate("/profile")
     } catch (error) {

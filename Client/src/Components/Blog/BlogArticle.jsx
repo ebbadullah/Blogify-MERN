@@ -1,20 +1,19 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { getImageUrl as getImg } from "../../Utils/helpers"
 import { Calendar, Clock, Eye, Heart, Share2, MessageCircle } from "lucide-react"
 import { Link } from "react-router-dom"
 import { useState } from "react"
+import { useDispatch } from "react-redux"
+import { likeBlog } from "../../redux/blog/blogSlice"
 
 const BlogArticle = ({ post, variant = "standard" }) => {
   const [showLikedUsers, setShowLikedUsers] = useState(false)
+  const dispatch = useDispatch()
 
   // Helper function to get correct image URL
-  const getImageUrl = (imagePath) => {
-    if (!imagePath) return "/placeholder.svg?height=400&width=600"
-    if (imagePath.startsWith("http")) return imagePath
-    if (imagePath.startsWith("/")) return `http://localhost:5000${imagePath}`
-    return imagePath
-  }
+  const getImageUrl = (imagePath) => getImg(imagePath)
 
   // Format numbers for display
   const formatCount = (count) => {
@@ -44,7 +43,17 @@ const BlogArticle = ({ post, variant = "standard" }) => {
         onMouseEnter={() => setShowLikedUsers(true)}
         onMouseLeave={() => setShowLikedUsers(false)}
       >
-        <Heart className="h-4 w-4" />
+        <button
+          onClick={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            dispatch(likeBlog(post._id))
+          }}
+          className="inline-flex items-center"
+          aria-label="Like"
+        >
+          <Heart className="h-4 w-4" />
+        </button>
         <span>{formatCount(post.likes || 0)}</span>
 
         {/* Hover tooltip showing liked users */}
@@ -82,7 +91,7 @@ const BlogArticle = ({ post, variant = "standard" }) => {
 
       <div className="flex items-center gap-1">
         <MessageCircle className="h-4 w-4" />
-        <span>{formatCount(post.comments || 0)}</span>
+        <span>{formatCount(Array.isArray(post.comments) ? post.comments.length : (post.comments || 0))}</span>
       </div>
     </div>
   )

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useMemo } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import { motion } from "framer-motion"
 import {
@@ -18,6 +19,8 @@ import {
   Link2,
 } from "lucide-react"
 import BlogArticle from "./BlogArticle"
+import { likeBlog, readBlog, fetchComments, addComment, removeComment } from "../../redux/blog/blogSlice"
+import { getImageUrl, formatDate, formatNumber } from "../../Utils/helpers"
 
 const API_BASE = "http://localhost:5000" // change if needed
 
@@ -26,15 +29,14 @@ const BlogDetails = ({ post: postProp, relatedPosts = [], onBack, onViewIncremen
   const [fetchedPost, setFetchedPost] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  const dispatch = useDispatch()
+  const authUser = useSelector((s) => s.auth.user)
+  const commentsByBlogId = useSelector((s) => s.blog.commentsByBlogId)
+  const allBlogs = useSelector((s) => s.blog.blogs)
 
   const post = useMemo(() => postProp ?? fetchedPost, [postProp, fetchedPost])
 
-  const getImageUrl = (imagePath) => {
-    if (!imagePath) return "/placeholder.svg"
-    if (imagePath.startsWith("http")) return imagePath
-    if (imagePath.startsWith("/")) return `${API_BASE}${imagePath}`
-    return imagePath
-  }
+  // helper imported above
 
   useEffect(() => {
     let ignore = false
@@ -64,18 +66,36 @@ const BlogDetails = ({ post: postProp, relatedPosts = [], onBack, onViewIncremen
   }, [postProp, routeId])
 
   useEffect(() => {
-    if (onViewIncrement && post?._id) {
-      onViewIncrement(post._id)
+    if (post?._id) {
+      dispatch(readBlog(post._id))
+      dispatch(fetchComments(post._id))
     }
-  }, [post?._id, onViewIncrement])
+  }, [post?._id, dispatch])
 
   const [isLiked, setIsLiked] = useState(false)
   const [showShareMenu, setShowShareMenu] = useState(false)
   const [showLikedUsers, setShowLikedUsers] = useState(false)
+  const [commentText, setCommentText] = useState("")
 
-  const handleLike = () => {
-    setIsLiked((v) => !v)
-    // TODO: call your like API here
+  const handleLike = async () => {
+    if (!post?._id) return
+    try {
+      setIsLiked((v) => !v)
+      await dispatch(likeBlog(post._id))
+    } catch (e) {
+      setIsLiked((v) => !v)
+    }
+  }
+
+  const handleAddComment = async () => {
+    if (!post?._id || !commentText.trim()) return
+    await dispatch(addComment({ id: post._id, text: commentText.trim() }))
+    setCommentText("")
+  }
+
+  const handleDeleteComment = async (commentId) => {
+    if (!post?._id) return
+    await dispatch(removeComment({ id: post._id, commentId }))
   }
 
   const handleShare = (platform) => {
@@ -219,22 +239,22 @@ const BlogDetails = ({ post: postProp, relatedPosts = [], onBack, onViewIncremen
                   </span>
 
                   {/* Liked Users Tooltip */}
-                  {showLikedUsers && (post.viewedBy?.length || 0) > 0 && (
+                  {showLikedUsers && (post.likedBy?.length || 0) > 0 && (
                     <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 bg-black text-white p-3 rounded-lg shadow-lg z-10 min-w-48">
                       <p className="text-xs font-medium mb-2">Liked by:</p>
                       <div className="space-y-2">
-                        {post.viewedBy.slice(0, 3).map((user, index) => (
+                        {post.likedBy.slice(0, 3).map((entry, index) => (
                           <div key={index} className="flex items-center gap-2">
                             <img
-                              src={getImageUrl(user.avatar) || "/default-avatar.png"}
-                              alt={user.name || "User"}
+                              src={getImageUrl(entry.userId?.avatar) || "/default-avatar.png"}
+                              alt={entry.userId?.name || "User"}
                               className="w-6 h-6 rounded-full"
                             />
-                            <span className="text-xs">{user.name || "Anonymous User"}</span>
+                            <span className="text-xs">{entry.userId?.name || "Anonymous User"}</span>
                           </div>
                         ))}
-                        {post.viewedBy.length > 3 && (
-                          <p className="text-xs text-gray-300">+{post.viewedBy.length - 3} more</p>
+                        {post.likedBy.length > 3 && (
+                          <p className="text-xs text-gray-300">+{post.likedBy.length - 3} more</p>
                         )}
                       </div>
                     </div>
@@ -324,12 +344,61 @@ const BlogDetails = ({ post: postProp, relatedPosts = [], onBack, onViewIncremen
           <div className="flex items-center gap-2 mb-8">
             <MessageCircle className="h-6 w-6 text-gray-600" />
             <h3 className="text-2xl font-serif font-bold text-gray-900">
-              Comments ({post.comments || 0})
+              Comments ({(commentsByBlogId[post._id]?.length) || 0})
             </h3>
           </div>
 
-          <div className="bg-gray-50 rounded-lg p-6 text-center">
-            <p className="text-gray-600">Comments section coming soon...</p>
+          {/* Add Comment */}
+          {authUser ? (
+            <div className="mb-6">
+              <textarea
+                value={commentText}
+                onChange={(e) => setCommentText(e.target.value)}
+                placeholder="Write a comment..."
+                className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-black"
+                rows={3}
+              />
+              <div className="mt-2 text-right">
+                <button
+                  onClick={handleAddComment}
+                  className="px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-900"
+                >
+                  Post Comment
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="bg-gray-50 rounded-lg p-6 text-center text-gray-600">Login to comment.</div>
+          )}
+
+          {/* Comments List */}
+          <div className="space-y-4">
+            {(commentsByBlogId[post._id] || []).map((c) => (
+              <div key={c._id} className="flex gap-3 items-start p-4 border border-gray-100 rounded-lg">
+                <img
+                  src={getImageUrl(c.userId?.avatar) || "/default-avatar.png"}
+                  alt={c.userId?.name || "User"}
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+                <div className="flex-1">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-medium text-gray-900">{c.userId?.name || "User"}</p>
+                      <p className="text-xs text-gray-500">{new Date(c.createdAt).toLocaleString()}</p>
+                    </div>
+                    {(authUser?._id === c.userId?._id || authUser?._id === post.author?._id) && (
+                      <button
+                        onClick={() => handleDeleteComment(c._id)}
+                        className="text-xs text-red-600 hover:underline"
+                      >
+                        Delete
+                      </button>
+                    )}
+                  </div>
+                  <p className="mt-2 text-gray-800">{c.text}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -351,6 +420,17 @@ const BlogDetails = ({ post: postProp, relatedPosts = [], onBack, onViewIncremen
           </div>
         </div>
       )}
+      {/* More from Blog: simple recent blogs grid */}
+      <div className="bg-white py-12 border-t border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h3 className="text-2xl font-serif font-bold text-gray-900 mb-8">Discover more</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {(allBlogs || []).slice(0,6).map((p) => (
+              <BlogArticle key={p._id} post={p} variant="standard" />
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

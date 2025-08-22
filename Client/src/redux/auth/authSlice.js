@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { updateUserProfile } from "../../store/service/auth/api";
 
 const BASE_URL = "http://localhost:5000";
 
@@ -39,6 +40,15 @@ export const fetchUserData = createAsyncThunk("auth/fetchUserData", async (_, th
             thunkAPI.dispatch(logout());
         }
         return thunkAPI.rejectWithValue(err.response?.data?.error || "Failed to fetch user data");
+    }
+});
+
+export const saveProfile = createAsyncThunk("auth/saveProfile", async (formData, thunkAPI) => {
+    try {
+        const res = await updateUserProfile(formData)
+        return res
+    } catch (err) {
+        return thunkAPI.rejectWithValue(err.response?.data?.error || "Failed to update profile")
     }
 });
 
@@ -109,6 +119,17 @@ const authSlice = createSlice({
                     state.user = null;
                     state.userBlogs = [];
                 }
+            })
+            .addCase(saveProfile.pending, (state) => {
+                state.loading = true
+            })
+            .addCase(saveProfile.fulfilled, (state, action) => {
+                state.loading = false
+                state.user = action.payload.user
+            })
+            .addCase(saveProfile.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload
             });
     }
 });

@@ -1,20 +1,13 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import AppRoutes from "./Routes/Index";
-import { fetchUserData } from "./redux/auth/authSlice";
 import "./index.css";
+import AuthBootstrap from "./Components/Auth/AuthBootstrap";
 
 function App() {
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(fetchUserData());
-    }, [dispatch]);
-
     return (
         <Router>
+            <AuthBootstrap />
             <Toaster
                 position="top-right"
                 toastOptions={{
