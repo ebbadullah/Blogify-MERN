@@ -1,75 +1,39 @@
-"use client"
-
 import { useState, useEffect } from "react"
 import ReactQuill from "react-quill-new"
-
-// Import Quill styles
 import "react-quill-new/dist/quill.snow.css"
 
 const RichTextEditor = ({ value, onChange, placeholder = "Write your content here..." }) => {
-  const [mounted, setMounted] = useState(false)
+    const [mounted, setMounted] = useState(false)
 
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+    useEffect(() => {
+        setMounted(true)
+    }, [])
 
-  // Quill modules configuration
-  const modules = {
-    toolbar: [
-      [{ header: [1, 2, 3, 4, 5, 6, false] }],
-      ["bold", "italic", "underline", "strike"],
-      [{ color: [] }, { background: [] }],
-      [{ list: "ordered" }, { list: "bullet" }],
-      [{ indent: "-1" }, { indent: "+1" }],
-      [{ align: [] }],
-      ["blockquote", "code-block"],
-      ["link", "image"],
-      ["clean"],
-    ],
-  }
+    const modules = {
+        toolbar: [
+            [{ header: [1, 2, 3, 4, 5, 6, false] }],
+            ["bold", "italic", "underline", "strike"],
+            [{ color: [] }, { background: [] }],
+            [{ list: "ordered" }, { list: "bullet" }],
+            [{ indent: "-1" }, { indent: "+1" }],
+            [{ align: [] }],
+            ["blockquote", "code-block"],
+            ["link", "image"],
+            ["clean"],
+        ],
+    }
 
-  // Quill formats
-  const formats = [
-    "header",
-    "font",
-    "size",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "list",
-    "bullet",
-    "indent",
-    "link",
-    "image",
-    "color",
-    "background",
-    "align",
-    "code-block",
-  ]
+    const formats = ["header", "font", "size", "bold", "italic", "underline", "strike", "blockquote", "list", "bullet", "indent", "link", "image", "color", "background", "align", "code-block"]
 
-  if (!mounted) {
-    return <div className="h-48 bg-gray-100 animate-pulse rounded-md"></div>
-  }
+    if (!mounted) {
+        return <div className="h-48 bg-gray-100 animate-pulse rounded-md"></div>
+    }
 
-  return (
-    <div className="rich-text-editor">
-      <ReactQuill
-        theme="snow"
-        value={value}
-        onChange={onChange}
-        modules={modules}
-        formats={formats}
-        placeholder={placeholder}
-        className="bg-white"
-        style={{
-          height: "200px",
-          marginBottom: "42px", // Space for toolbar
-        }}
-      />
+    return (
+        <div className="rich-text-editor">
+            <ReactQuill theme="snow" value={value} onChange={onChange} modules={modules} formats={formats} placeholder={placeholder} className="bg-white" style={{ height: "200px", marginBottom: "42px" }} />
 
-      <style>{`
+            <style>{`
         .rich-text-editor .ql-editor {
           min-height: 150px;
           font-size: 14px;
@@ -100,8 +64,8 @@ const RichTextEditor = ({ value, onChange, placeholder = "Write your content her
           box-shadow: 0 0 0 1px #6366f1;
         }
       `}</style>
-    </div>
-  )
+        </div>
+    )
 }
 
 export default RichTextEditor

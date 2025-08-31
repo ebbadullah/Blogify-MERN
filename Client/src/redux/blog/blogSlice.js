@@ -1,16 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import {
-    getAllBlogs,
-    createNewBlog,
-    getSingleBlog,
-    deleteBlogById,
-    updateBlogById,
-    likeBlogById,
-    readBlogById,
-    getBlogComments,
-    addBlogComment,
-    deleteBlogComment
-} from "../../store/service/blog/api";
+import { getAllBlogs, createNewBlog, getSingleBlog, deleteBlogById, updateBlogById, likeBlogById, readBlogById, getBlogComments, addBlogComment, deleteBlogComment } from "../../store/service/blog/api";
 
 export const fetchBlogs = createAsyncThunk("blog/fetchAll", async () => {
     return await getAllBlogs();

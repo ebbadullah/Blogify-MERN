@@ -2,13 +2,13 @@ import AuthGate from "./AuthGate"
 
 
 const ProtectedRoute = ({ children }) => {
-  const isAuthenticated = !!localStorage.getItem("token")
+    const isAuthenticated = !!localStorage.getItem("token")
 
-  if (!isAuthenticated) {
-    return <AuthGate />
-  }
+    if (!isAuthenticated) {
+        return <AuthGate />
+    }
 
-  return children
+    return children
 }
 
 export default ProtectedRoute

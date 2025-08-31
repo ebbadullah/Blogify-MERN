@@ -114,7 +114,6 @@ const authSlice = createSlice({
             .addCase(fetchUserData.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
-                // Agar error unauthorized ho to user ko null karo
                 if (action.payload === "Unauthorized") {
                     state.user = null;
                     state.userBlogs = [];

@@ -1,5 +1,3 @@
-"use client"
-
 import { motion } from "framer-motion"
 import { Hash } from "lucide-react"
 

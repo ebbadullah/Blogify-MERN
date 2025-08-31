@@ -1,5 +1,3 @@
-"use client"
-
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { fetchUserData } from "../../redux/auth/authSlice"
@@ -13,6 +11,3 @@ const AuthBootstrap = () => {
 }
 
 export default AuthBootstrap
-
-
-
