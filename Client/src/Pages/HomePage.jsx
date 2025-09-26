@@ -139,7 +139,7 @@ const HomePage = () => {
             <BlogSection />
 
             {/* CTA Section */}
-            <section className="py-16 bg-white">
+            {/* <section className="py-16 bg-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <AnimatedSection className="flex flex-col md:flex-row items-center justify-between gap-10 p-10 bg-gradient-to-r from-gray-900 to-black rounded-3xl text-white">
                         <div className="md:max-w-xl">
@@ -160,7 +160,7 @@ const HomePage = () => {
                         </div>
                     </AnimatedSection>
                 </div>
-            </section>
+            </section> */}
         </div>
     )
 }
