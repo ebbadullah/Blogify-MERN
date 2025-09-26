@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const BASE_URL = "http://localhost:5000"
+const BASE_URL = "http://localhost:3000"
 
 export const loginUser = async (data) => {
     const res = await axios.post(`${BASE_URL}/api/signin`, data, { withCredentials: true })
@@ -22,5 +22,15 @@ export const updateUserProfile = async (formData) => {
         withCredentials: true,
         headers: { "Content-Type": "multipart/form-data" }
     })
+    return res.data
+}
+
+export const searchUsersApi = async (q) => {
+    const res = await axios.get(`${BASE_URL}/api/users/search`, { params: { q }, withCredentials: true })
+    return res.data
+}
+
+export const getPublicUserProfileApi = async (id) => {
+    const res = await axios.get(`${BASE_URL}/api/users/${id}`, { withCredentials: true })
     return res.data
 }

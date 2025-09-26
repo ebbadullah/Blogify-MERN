@@ -1,6 +1,8 @@
 import jwt from "jsonwebtoken";
 import User from "../Models/user_schemas.js";
 
+const JWT_SECRET = process.env.JWT_SECRET || "simpleSecret123";
+
 export const authMiddleware = async (req, res, next) => {
   try {
     const token = req.cookies.token;
@@ -10,7 +12,7 @@ export const authMiddleware = async (req, res, next) => {
 
     let decoded;
     try {
-      decoded = jwt.verify(token, process.env.JWT_SECRET);
+      decoded = jwt.verify(token, JWT_SECRET);
     } catch (err) {
       return res.status(401).json({ error: "Unauthorized" });
     }

@@ -66,7 +66,15 @@ const ProfilePage = () => {
                     <motion.div variants={staggerContainer(0.1, 0.2)} initial="hidden" animate="show" className="flex flex-col md:flex-row items-center md:items-start gap-8">
                         <motion.div variants={fadeIn("right", 0.2)} className="relative">
                             <div className="w-36 h-36 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-white/80 shadow-xl">
-                                <img src={user?.profileImage || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1760&q=80"} alt={user?.name || "User"} className="w-full h-full object-cover" />
+                                <img
+                                    src={
+                                        user?.avatar
+                                            ? (user.avatar.startsWith("/") ? `http://localhost:3000${user.avatar}` : user.avatar)
+                                            : `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || "User")}&background=111111&color=ffffff&size=256`
+                                    }
+                                    alt={user?.name || "User"}
+                                    className="w-full h-full object-cover"
+                                />
                             </div>
                             <div className="absolute bottom-0 right-0 bg-green-500 w-6 h-6 rounded-full border-4 border-black"></div>
                         </motion.div>
@@ -158,7 +166,7 @@ const ProfilePage = () => {
                         {currentPosts?.map((post, index) => (
                             <motion.div key={post._id || index} variants={fadeIn("up", 0.1 * index)} className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-500">
                                 <div className="relative h-52 overflow-hidden">
-                                    <img src={post.imageUrl?.startsWith("/") ? `http://localhost:5000${post.imageUrl}` : post.imageUrl || "/placeholder.svg"} alt={post.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                                    <img src={post.imageUrl?.startsWith("/") ? `http://localhost:3000${post.imageUrl}` : post.imageUrl || "/placeholder.svg"} alt={post.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                     <div className="absolute bottom-4 right-4 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                         <Link to={`/edit-blog/${post._id}`} className="p-2 bg-white/90 rounded-full text-black hover:bg-white transition-colors">

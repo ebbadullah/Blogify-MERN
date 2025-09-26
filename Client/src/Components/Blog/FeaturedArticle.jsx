@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 const getImageUrl = (post) => {
     if (post.imageUrl) {
         return post.imageUrl.startsWith("/")
-            ? `http://localhost:5000${post.imageUrl}`
+            ? `http://localhost:3000${post.imageUrl}`
             : post.imageUrl
     }
     if (post.image) return post.image

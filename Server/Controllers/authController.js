@@ -4,14 +4,17 @@ import upload from "../Config/multer.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
+const JWT_SECRET = process.env.JWT_SECRET || "simpleSecret123";
+
 const generateToken = (userId) => {
-    return jwt.sign({ _id: userId }, process.env.JWT_SECRET || "simpleSecret123", { expiresIn: "7d" });
+    return jwt.sign({ _id: userId }, JWT_SECRET, { expiresIn: "7d" });
 };
 
 const getCookieOptions = () => ({
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production" ? true : false,
-    sameSite: process.env.NODE_ENV === "production" ? "strict" : "none",
+    // localhost:5173 → localhost:3000 is same-site, Lax works reliably in dev
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
     maxAge: 7 * 24 * 60 * 60 * 1000,
 });
 
@@ -92,12 +95,13 @@ const getUser = async (req, res) => {
 export const updateProfile = async (req, res) => {
     try {
         const userId = req.user._id;
-        const { name, email, bio, location, website, twitter, instagram, github, linkedin } = req.body;
+        const { name, email, bio, dateOfBirth, location, website, twitter, instagram, github, linkedin } = req.body;
 
         const update = {
             ...(name !== undefined ? { name } : {}),
             ...(email !== undefined ? { email } : {}),
             ...(bio !== undefined ? { bio } : {}),
+            ...(dateOfBirth !== undefined ? { dateOfBirth } : {}),
             ...(location !== undefined ? { location } : {}),
             ...(website !== undefined ? { website } : {}),
             ...(twitter !== undefined ? { twitter } : {}),
@@ -119,3 +123,35 @@ export const updateProfile = async (req, res) => {
 };
 
 export { signup, signin, getUser };
+
+// Public: search users by name or email
+export const searchUsers = async (req, res) => {
+    try {
+        const q = (req.query.q || "").trim();
+        if (!q) return res.json([]);
+        const regex = new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
+        const users = await User.find({ $or: [{ name: regex }, { email: regex }] })
+            .select("name email avatar createdAt")
+            .limit(10);
+        res.json(users);
+    } catch (err) {
+        console.error("Search users error:", err);
+        res.status(500).json({ error: "Server error while searching users" });
+    }
+};
+
+// Public: get a user's public profile with their blogs
+export const getPublicUserProfile = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await User.findById(id).select("-password");
+        if (!user) return res.status(404).json({ error: "User not found" });
+        const blogs = await Blog.find({ author: id })
+            .sort({ createdAt: -1 })
+            .populate("author", "name email avatar");
+        res.json({ user, blogs });
+    } catch (err) {
+        console.error("Get public profile error:", err);
+        res.status(500).json({ error: "Server error while fetching profile" });
+    }
+};

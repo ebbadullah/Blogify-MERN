@@ -1,4 +1,4 @@
-export const API_BASE = "http://localhost:5000"
+export const API_BASE = "http://localhost:3000"
 
 export const getImageUrl = (imagePath) => {
   if (!imagePath) return "/placeholder.svg"

@@ -1,5 +1,5 @@
 import express from "express";
-import { signup, signin, getUser, updateProfile } from "../Controllers/authController.js";
+import { signup, signin, getUser, updateProfile, searchUsers, getPublicUserProfile } from "../Controllers/authController.js";
 import { authMiddleware } from "../Middleware/authMiddleware.js";
 import { createBlog, getBlogs, getBlogById, updateBlog, deleteBlog, likeBlog, readBlog, shareBlog, getDefaultCategories, getComments, addComment, deleteComment } from "../Controllers/blogController.js";
 import upload from "../Config/multer.js";
@@ -10,6 +10,8 @@ router.post("/signup", signup);
 router.post("/signin", signin);
 router.get("/user", authMiddleware, getUser);
 router.put("/user", authMiddleware, upload.single("avatar"), updateProfile);
+router.get("/users/search", searchUsers);
+router.get("/users/:id", getPublicUserProfile);
 
 router.post("/blogs", authMiddleware, upload.single("image"), createBlog); 
 router.get("/blogs", getBlogs); 

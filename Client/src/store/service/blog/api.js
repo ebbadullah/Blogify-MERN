@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:5000";
+const BASE_URL = "http://localhost:3000";
 
 export const getAllBlogs = async () => {
     const res = await axios.get(`${BASE_URL}/api/blogs`, { withCredentials: true });

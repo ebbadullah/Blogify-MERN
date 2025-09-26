@@ -4,6 +4,7 @@ import { Menu, X, Search, User, LogOut } from "lucide-react"
 import Logo from "./Logo"
 import { useSelector, useDispatch } from "react-redux"
 import { logout } from "../../redux/auth/authSlice"
+import SearchUsers from "../Search/SearchUsers"
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false)
@@ -36,18 +37,17 @@ const Navbar = () => {
                             <Link to="/contact" className="text-white hover:text-gray-300 px-3 py-2 text-sm font-medium transition-all duration-300 border-b-2 border-transparent hover:border-white">Contact</Link>
                         </div>
 
-                        <div className="relative">
-                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <Search className="h-4 w-4 text-gray-400" />
-                            </div>
-                            <input type="text" placeholder="Search..." className="block w-full pl-10 pr-3 py-2 border border-gray-700 rounded-md bg-gray-900 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent sm:text-sm transition-all duration-300" />
-                        </div>
+                        <SearchUsers />
 
                         <div className="flex items-center space-x-3">
                             {user ? (
                                 <>
                                     <Link to="/profile" className="flex items-center space-x-2 px-3 py-2 text-sm font-medium text-white hover:text-gray-300">
-                                        <User className="h-5 w-5" />
+                                        <img
+                                            src={user.avatar ? (user.avatar.startsWith("/") ? `http://localhost:3000${user.avatar}` : user.avatar) : `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name || "User")}&background=111111&color=ffffff&size=64`}
+                                            alt={user.name || "User"}
+                                            className="h-6 w-6 rounded-full object-cover"
+                                        />
                                         <span>{user.name || "Profile"}</span>
                                     </Link>
                                     <button onClick={handleLogout} className="flex items-center space-x-2 px-4 py-2 border border-white text-sm font-medium rounded-md text-white hover:bg-white hover:text-black transition-all duration-300">

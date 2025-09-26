@@ -7,7 +7,7 @@ import BlogArticle from "./BlogArticle"
 import { likeBlog, readBlog, fetchComments, addComment, removeComment } from "../../redux/blog/blogSlice"
 import { getImageUrl, formatDate, formatNumber } from "../../Utils/helpers"
 
-const API_BASE = "http://localhost:5000"
+const API_BASE = "http://localhost:3000"
 
 const BlogDetails = ({ post: postProp, relatedPosts = [], onBack, onViewIncrement }) => {
     const { id: routeId } = useParams()

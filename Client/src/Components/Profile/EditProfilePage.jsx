@@ -106,7 +106,14 @@ const EditProfilePage = () => {
                             <div className="absolute left-0 right-0 -bottom-16 flex justify-center">
                                 <div className="relative">
                                     <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white bg-white">
-                                        <img src={previewImage || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1760&q=80"} alt="Profile" className="w-full h-full object-cover" />
+                                        <img
+                                            src={
+                                                previewImage
+                                                    || (user?.avatar ? (user.avatar.startsWith("/") ? `http://localhost:3000${user.avatar}` : user.avatar) : `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || "User")}&background=111111&color=ffffff&size=256`)
+                                            }
+                                            alt="Profile"
+                                            className="w-full h-full object-cover"
+                                        />
                                     </div>
                                     <button type="button" onClick={triggerFileInput} className="absolute bottom-0 right-0 p-2 bg-black text-white rounded-full hover:bg-gray-800 transition-colors">
                                         <Camera className="h-5 w-5" />

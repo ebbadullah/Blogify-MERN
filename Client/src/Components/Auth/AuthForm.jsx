@@ -41,17 +41,23 @@ const AuthForm = () => {
                 : { name: formData.name, email: formData.email, password: formData.password }
 
             await dispatch(isLogin ? login(body) : register(body)).unwrap()
-            toast.success(isLogin ? "Login successful!" : "Account created successfully!")
+            if (isLogin) {
+                toast.success("Login successful!")
+                navigate("/")
+            } else {
+                toast.success("Account created successfully! Set up your profile.")
+                navigate("/setup-profile")
+            }
         } catch (err) {
             toast.error(err || "Something went wrong")
         }
     }
 
     useEffect(() => {
-        if (user) {
+        if (user && isLogin) {
             navigate("/")
         }
-    }, [user, navigate])
+    }, [user, isLogin, navigate])
 
     return (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="bg-white p-10 rounded-xl shadow-xl max-w-md w-full mx-auto">
