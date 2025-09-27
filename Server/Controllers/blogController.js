@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import Blog from "../Models/blog_schemas.js";
+import getFileUri from "../Config/fileURI.js";
+import { uploadToCloudinary } from "../Config/cloudinary.js";
 
 export const createBlog = async (req, res) => {
     try {
@@ -7,13 +9,22 @@ export const createBlog = async (req, res) => {
         if (!title || !description || !category) return res.status(400).json({ error: "Title, description and category are required" });
         if (!req.file) return res.status(400).json({ error: "Image is required" });
 
+        // Convert file to URI format
+        const fileUri = getFileUri(req.file);
+        
+        // Upload to Cloudinary
+        const cloudinaryResponse = await uploadToCloudinary(fileUri, "blog_images");
+        if (!cloudinaryResponse) {
+            return res.status(500).json({ error: "Failed to upload image to Cloudinary" });
+        }
+
         const author = req.user._id;
         const newBlog = await Blog.create({
             title,
             author,
             description,
             category: category.trim(),
-            imageUrl: `/uploads/${req.file.filename}`,
+            imageUrl: cloudinaryResponse.secure_url,
         });
 
         const populatedBlog = await Blog.findById(newBlog._id).populate('author', 'name email avatar');
@@ -53,7 +64,18 @@ export const updateBlog = async (req, res) => {
             updateData.author = author;
         }
 
-        if (req.file) updateData.imageUrl = `/uploads/${req.file.filename}`;
+        if (req.file) {
+            // Convert file to URI format
+            const fileUri = getFileUri(req.file);
+            
+            // Upload to Cloudinary
+            const cloudinaryResponse = await uploadToCloudinary(fileUri, "blog_images");
+            if (!cloudinaryResponse) {
+                return res.status(500).json({ error: "Failed to upload image to Cloudinary" });
+            }
+            
+            updateData.imageUrl = cloudinaryResponse.secure_url;
+        }
 
         const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, updateData, { new: true }).populate("author", "name email avatar");
         if (!updatedBlog) return res.status(404).json({ error: "Blog not found" });
