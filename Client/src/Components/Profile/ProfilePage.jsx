@@ -20,6 +20,8 @@ import { fetchUserData, clearError } from "../../redux/auth/authSlice"
 import AnimatedSection from "../UI/AnimatedSection"
 import Loader from "../UI/Loader"
 import { fadeIn, staggerContainer } from "../../Utils/motion"
+const BASE_URL = import.meta.env.VITE_API_BASE_URL
+
 
 const ProfilePage = () => {
   const dispatch = useDispatch()
@@ -98,7 +100,7 @@ const ProfilePage = () => {
                   src={
                     user?.avatar
                       ? user.avatar.startsWith("/")
-                        ? `http://localhost:3000${user.avatar}`
+                        ? `${BASE_URL}${user.avatar}`
                         : user.avatar
                       : `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || "User")}&background=111111&color=ffffff&size=256`
                   }
@@ -265,7 +267,7 @@ const ProfilePage = () => {
                   <img
                     src={
                       post.imageUrl?.startsWith("/")
-                        ? `http://localhost:3000${post.imageUrl}`
+                        ? `${BASE_URL}$${post.imageUrl}`
                         : post.imageUrl || "/placeholder.svg"
                     }
                     alt={post.title}

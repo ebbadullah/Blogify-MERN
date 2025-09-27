@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { searchUsersApi } from "../../store/service/auth/api"
+const BASE_URL = import.meta.env.VITE_API_BASE_URL
+
 
 const SearchUsers = () => {
     const [query, setQuery] = useState("")
@@ -58,7 +60,7 @@ const SearchUsers = () => {
                                     className="w-full text-left flex items-center px-3 py-2 hover:bg-gray-50"
                                 >
                                     <img
-                                        src={u.avatar ? (u.avatar.startsWith("/") ? `http://localhost:3000${u.avatar}` : u.avatar) : `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name || "User")}&background=111111&color=ffffff&size=64`}
+                                        src={u.avatar ? (u.avatar.startsWith("/") ? `${BASE_URL}${u.avatar}` : u.avatar) : `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name || "User")}&background=111111&color=ffffff&size=64`}
                                         alt={u.name}
                                         className="h-8 w-8 rounded-full object-cover mr-3"
                                     />

@@ -1,8 +1,24 @@
 import { motion } from "framer-motion"
-import { Calendar, Clock, ArrowUpRight } from "lucide-react"
+import { Calendar, Clock, ArrowUpRight, Trash2 } from "lucide-react"
 import { Link } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import { deleteBlog } from "../../redux/blog/blogSlice"
+import toast from "react-hot-toast"
 
 const BlogCard = ({ post }) => {
+    const dispatch = useDispatch()
+    const { user } = useSelector(state => state.auth)
+    
+    const handleDelete = (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        if(window.confirm('Are you sure you want to delete this blog?')) {
+            dispatch(deleteBlog(post._id))
+                .unwrap()
+                .then(() => toast.success('Blog deleted successfully'))
+                .catch(err => toast.error('Failed to delete blog'))
+        }
+    }
     return (
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }} className="group relative bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 mb-6">
             <div className="relative overflow-hidden h-52">
@@ -12,6 +28,18 @@ const BlogCard = ({ post }) => {
                 <div className="absolute top-4 left-4">
                     <motion.span whileHover={{ scale: 1.05 }} className="bg-black text-white text-xs px-3 py-1.5 rounded-full uppercase tracking-wide font-medium">{post.category}</motion.span>
                 </div>
+                
+                {user && post.author && user._id === post.author._id && (
+                    <div className="absolute top-4 right-4">
+                        <button 
+                            onClick={handleDelete} 
+                            className="p-2 bg-black rounded-full text-white hover:bg-gray-800 transition-colors"
+                            title="Delete blog"
+                        >
+                            <Trash2 className="h-4 w-4" />
+                        </button>
+                    </div>
+                )}
 
                 <motion.div initial={{ opacity: 0 }} whileHover={{ opacity: 1 }} className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <Link to={`/blog/${post.id}`} className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white text-black hover:bg-gray-100 transition-colors">

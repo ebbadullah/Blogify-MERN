@@ -20,6 +20,8 @@ import toast from "react-hot-toast"
 import AnimatedSection from "../UI/AnimatedSection"
 import { useDispatch, useSelector } from "react-redux"
 import { saveProfile } from "../../redux/auth/authSlice"
+const BASE_URL = import.meta.env.VITE_API_BASE_URL
+
 
 const EditProfilePage = () => {
   const navigate = useNavigate()
@@ -149,7 +151,7 @@ const EditProfilePage = () => {
                         previewImage ||
                         (user?.avatar
                           ? user.avatar.startsWith("/")
-                            ? `http://localhost:3000${user.avatar}`
+                            ? `${BASE_URL}${user.avatar}`
                             : user.avatar
                           : `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || "User")}&background=111111&color=ffffff&size=256`)
                       }

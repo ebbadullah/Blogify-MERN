@@ -5,6 +5,8 @@ import Logo from "./Logo"
 import { useSelector, useDispatch } from "react-redux"
 import { logout } from "../../redux/auth/authSlice"
 import SearchUsers from "../Search/SearchUsers"
+const BASE_URL = import.meta.env.VITE_API_BASE_URL
+
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false)
@@ -44,7 +46,7 @@ const Navbar = () => {
                                 <>
                                     <Link to="/profile" className="flex items-center space-x-2 px-3 py-2 text-sm font-medium text-white hover:text-gray-300">
                                         <img
-                                            src={user.avatar ? (user.avatar.startsWith("/") ? `http://localhost:3000${user.avatar}` : user.avatar) : `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name || "User")}&background=111111&color=ffffff&size=64`}
+                                            src={user.avatar ? (user.avatar.startsWith("/") ? `${BASE_URL}${user.avatar}` : user.avatar) : `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name || "User")}&background=111111&color=ffffff&size=64`}
                                             alt={user.name || "User"}
                                             className="h-6 w-6 rounded-full object-cover"
                                         />

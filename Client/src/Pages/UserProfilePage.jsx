@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import { useParams, Link } from "react-router-dom"
 import { getPublicUserProfileApi } from "../store/service/auth/api"
+const BASE_URL = import.meta.env.VITE_API_BASE_URL
+
 
 const UserProfilePage = () => {
     const { id } = useParams()
@@ -27,7 +29,7 @@ const UserProfilePage = () => {
         return <div className="min-h-screen flex items-center justify-center">{data.error || "User not found"}</div>
     }
 
-    const avatar = data.user.avatar ? (data.user.avatar.startsWith("/") ? `http://localhost:3000${data.user.avatar}` : data.user.avatar) : `https://ui-avatars.com/api/?name=${encodeURIComponent(data.user.name || "User")}&background=111111&color=ffffff&size=128`
+    const avatar = data.user.avatar ? (data.user.avatar.startsWith("/") ? `${BASE_URL}${data.user.avatar}` : data.user.avatar) : `https://ui-avatars.com/api/?name=${encodeURIComponent(data.user.name || "User")}&background=111111&color=ffffff&size=128`
 
     return (
         <div className="min-h-screen bg-gray-50">
@@ -52,7 +54,7 @@ const UserProfilePage = () => {
                         {data.blogs.map((b) => (
                             <div key={b._id} className="bg-white rounded-xl shadow overflow-hidden">
                                 <div className="h-48 overflow-hidden">
-                                    <img src={b.imageUrl?.startsWith("/") ? `http://localhost:3000${b.imageUrl}` : b.imageUrl} alt={b.title} className="w-full h-full object-cover" />
+                                    <img src={b.imageUrl?.startsWith("/") ? `${BASE_URL}${b.imageUrl}` : b.imageUrl} alt={b.title} className="w-full h-full object-cover" />
                                 </div>
                                 <div className="p-4">
                                     <Link to={`/blog/${b._id}`} className="text-lg font-semibold hover:underline">{b.title}</Link>

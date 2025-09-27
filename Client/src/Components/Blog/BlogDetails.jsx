@@ -1,16 +1,19 @@
 import { useState, useEffect, useMemo } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import { motion } from "framer-motion"
-import { ArrowLeft, Calendar, Clock, Eye, Heart, Share2, MessageCircle, Tag, Facebook, Twitter, Linkedin, Link2 } from "lucide-react"
+import { ArrowLeft, Calendar, Clock, Eye, Heart, Share2, MessageCircle, Tag, Facebook, Twitter, Linkedin, Link2, Trash2, Edit } from "lucide-react"
 import BlogArticle from "./BlogArticle"
-import { likeBlog, readBlog, fetchComments, addComment, removeComment } from "../../redux/blog/blogSlice"
+import { likeBlog, readBlog, fetchComments, addComment, removeComment, deleteBlog } from "../../redux/blog/blogSlice"
 import { getImageUrl, formatDate, formatNumber } from "../../Utils/helpers"
+import toast from "react-hot-toast"
 
-const API_BASE = "http://localhost:3000"
+const API_BASE = import.meta.env.VITE_API_BASE_URL;
+
 
 const BlogDetails = ({ post: postProp, relatedPosts = [], onBack, onViewIncrement }) => {
     const { id: routeId } = useParams()
+    const navigate = useNavigate()
     const [fetchedPost, setFetchedPost] = useState(null)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)

@@ -1,11 +1,13 @@
 import { motion } from "framer-motion"
 import { Calendar, Clock, ArrowRight } from "lucide-react"
 import { Link } from "react-router-dom"
+const BASE_URL = import.meta.env.VITE_API_BASE_URL
+
 
 const getImageUrl = (post) => {
     if (post.imageUrl) {
         return post.imageUrl.startsWith("/")
-            ? `http://localhost:3000${post.imageUrl}`
+            ? `${BASE_URL}${post.imageUrl}`
             : post.imageUrl
     }
     if (post.image) return post.image

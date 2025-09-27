@@ -56,25 +56,30 @@ export const getBlogById = async (req, res) => {
 
 export const updateBlog = async (req, res) => {
     try {
-        const { title, author, description, category } = req.body;
-        const updateData = { title, description, category: category?.trim() };
-
-        if (author) {
-            if (!mongoose.Types.ObjectId.isValid(author)) return res.status(400).json({ error: "Invalid author id" });
-            updateData.author = author;
-        }
+        const { title, description, category } = req.body;
+        
+        // Only include fields that are provided
+        const updateData = {};
+        if (title) updateData.title = title;
+        if (description) updateData.description = description;
+        if (category) updateData.category = category.trim();
 
         if (req.file) {
-            // Convert file to URI format
-            const fileUri = getFileUri(req.file);
-            
-            // Upload to Cloudinary
-            const cloudinaryResponse = await uploadToCloudinary(fileUri, "blog_images");
-            if (!cloudinaryResponse) {
-                return res.status(500).json({ error: "Failed to upload image to Cloudinary" });
+            try {
+                // Convert file to URI format
+                const fileUri = getFileUri(req.file);
+                
+                // Upload to Cloudinary
+                const cloudinaryResponse = await uploadToCloudinary(fileUri, "blog_images");
+                if (!cloudinaryResponse) {
+                    return res.status(500).json({ error: "Failed to upload image to Cloudinary" });
+                }
+                
+                updateData.imageUrl = cloudinaryResponse.secure_url;
+            } catch (error) {
+                console.error("Image upload error:", error);
+                return res.status(400).json({ error: "Failed to process image" });
             }
-            
-            updateData.imageUrl = cloudinaryResponse.secure_url;
         }
 
         const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, updateData, { new: true }).populate("author", "name email avatar");
