@@ -24,6 +24,15 @@ app.use(cookieParser());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use("/api", router);
 
+app.get("/api/health", (req, res) => {
+  res.json({
+    success: true,
+    message: "Server is healthy",
+    timestamp: new Date().toISOString()
+  });
+});
+
+
 
 
 const PORT = process.env.PORT || 3000;
