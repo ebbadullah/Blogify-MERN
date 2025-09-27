@@ -1,5 +1,5 @@
 import { motion } from "framer-motion"
-import BlogSection from "../components/Blog/BlogSection"
+import BlogSection from "../Components/Blog/BlogSection"
 import AnimatedSection from "../Components/UI/AnimatedSection"
 import { fadeIn, textVariant } from "../Utils/motion"
 

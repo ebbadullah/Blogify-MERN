@@ -1,5 +1,5 @@
 import { motion } from "framer-motion"
-import AuthForm from "../components/Auth/AuthForm"
+import AuthForm from "../Components/Auth/AuthForm"
 
 const LoginPage = () => {
     return (

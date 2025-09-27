@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { Link } from "react-router-dom"
 import toast from "react-hot-toast"
-import BlogSection from "../components/Blog/BlogSection"
+import BlogSection from "../Components/Blog/BlogSection"
 import { ArrowRight, ChevronDown, Mail, Star, TrendingUp, Users } from "lucide-react"
 import { motion } from "framer-motion"
 import AnimatedSection from "../Components/UI/AnimatedSection"
